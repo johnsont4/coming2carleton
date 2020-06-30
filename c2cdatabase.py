@@ -1,6 +1,7 @@
-#Access to Google Spreadsheats
+#Access to Google Spreadsheats and GoogleDrive
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+
 #Imports student class containing each students' attributes
 from student import Student
 #Needed for dictionary commands
@@ -12,10 +13,11 @@ scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
 
 #Uses info from the JSON file and the scope to access Teagan's google drive
+#This is stored in a variable (credentials)
 credentials = ServiceAccountCredentials.from_json_keyfile_name\
 ('Coming2Carleton.json', scope)
 
-#Uses the credentials to access google spreadsheets
+#Uses the credentials variable to access google spreadsheets
 gc = gspread.authorize(credentials)
 
 wks = gc.open('GoogleF').sheet1
@@ -25,7 +27,6 @@ wks = gc.open('GoogleF').sheet1
 data = wks.get_all_records()
 
 #############################################################################
-
 
 #Counts total number of students who filled out the form
 for index, students in enumerate(data, start = 1):
@@ -44,7 +45,6 @@ def makestudent(listofatt):
     student = Student(listofatt)
     studentclasslist.append(student)
 
-
 #This function creates a list of the students
 #Each element of the list is an object of the student class
 def studentList(students, variables):
@@ -61,9 +61,6 @@ def studentList(students, variables):
 
         makestudent(listofatt)
     return studentclasslist
-
-
-
 
 #Adds volunteers and their compatability to each incoming students dictionary
 def makePairs(instudent, volstudent, points, allPairs):
@@ -129,6 +126,9 @@ def findPoints(incomingstudents):
 
 
 
+
+
+#The main function of the whole program
 def main():
     #This variable (incomingstudents) is a list of student objects
     incomingstudents = studentList(totalstudents, totalvariables)
