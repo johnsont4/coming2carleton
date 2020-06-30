@@ -32,12 +32,12 @@ data = wks.get_all_records()
 #Counts total number of students who filled out the form
 for index, students in enumerate(data, start = 1):
     pass
-totalStudents = index
+numStudents = index
 
 #Counts total number of variables
 for index, variables in enumerate(data[0], start = 1):
     pass
-totalVariables = index
+numVariables = index
 
 #Makes a student using the student class
 studentClassList = []
@@ -64,7 +64,7 @@ def studentList(students, variables):
     return studentClassList
 
 #This variable (incomingStudents) is a list of student objects
-incomingStudents = studentList(totalStudents, totalVariables)
+incomingStudents = studentList(numStudents, numVariables)
 
 #Adds volunteers and their compatability to each incoming students dictionary
 def makePair(incomingStudent, volStudent, points, allPairs):
@@ -73,7 +73,7 @@ def makePair(incomingStudent, volStudent, points, allPairs):
 
 #Finds each incoming students best match by using the makePair function above
 #The for loops in this function allow one incoming student to be compared with all volunteers
-def findPoints(incomingStudents):
+def findMatches(incomingStudents):
 
     #incomingStudent stands for incoming student
     for incomingStudent in range((len(incomingStudents))):
@@ -117,7 +117,7 @@ def findPoints(incomingStudents):
 
         #Finds the volunteer with the highest compatability
         #The variable is the name of one of the volunteers in the dictionary
-        bestmatch = max(allPairs.items(), key=operator.itemgetter(1))[0]
+        bestmatch = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
         print("Incoming ", incomingStudent + 1, "'s top match is ", bestmatch, " with a total of ", \
         allPairs[bestmatch], " points! \nNow we have to email: ", \
@@ -127,8 +127,11 @@ def findPoints(incomingStudents):
 #The main function of the whole program
 def main():
     #This variable (incomingStudents) is a list of student objects
-    incomingStudents = studentList(totalStudents, totalVariables)
-    findPoints(incomingStudents)
+    incomingStudents = studentList(numStudents, numVariables)
+
+    #finds best match for each student and prints out results
+    findMatches(incomingStudents)
+
 main()
 
 ##
