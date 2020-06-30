@@ -82,6 +82,7 @@ def findPoints(incomingstudents):
         #The keys are the volunteers
         #The values are each volunteers compatability with the incoming student
         allPairs = {}
+
         inpronouns = incomingstudents[instudent].getPronouns()
         ininterest = incomingstudents[instudent].getInterests()
 
