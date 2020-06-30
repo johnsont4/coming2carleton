@@ -67,11 +67,11 @@ def studentList(students, variables):
 incomingStudents = studentList(totalStudents, totalVariables)
 
 #Adds volunteers and their compatability to each incoming students dictionary
-def makePairs(incomingStudent, volStudent, points, allPairs):
+def makePair(incomingStudent, volStudent, points, allPairs):
     allPairs['volunteer{}'.format(volStudent)] = points
     return allPairs
 
-#Finds each incoming students best match by using the makePairs function above
+#Finds each incoming students best match by using the makePair function above
 #The for loops in this function allow one incoming student to be compared with all volunteers
 def findPoints(incomingStudents):
 
@@ -113,7 +113,7 @@ def findPoints(incomingStudents):
             #Creates the dictionary for the incoming student
             #Each key is one of the volunteers and each value is their
             #respective compatability
-            makePairs(incomingStudent + 1, volStudent + 1, points, allPairs)
+            makePair(incomingStudent + 1, volStudent + 1, points, allPairs)
 
         #Finds the volunteer with the highest compatability
         #The variable is the name of one of the volunteers in the dictionary
@@ -129,7 +129,6 @@ def main():
     #This variable (incomingStudents) is a list of student objects
     incomingStudents = studentList(totalStudents, totalVariables)
     findPoints(incomingStudents)
-
 main()
 
 ##
