@@ -4,6 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 #Imports student class containing each students' attributes
 from student import Student
+
 #Needed for dictionary commands
 import operator
 import time
@@ -61,6 +62,9 @@ def studentList(students, variables):
 
         makestudent(listofatt)
     return studentclasslist
+
+#This variable (incomingstudents) is a list of student objects
+incomingstudents = studentList(totalstudents, totalvariables)
 
 #Adds volunteers and their compatability to each incoming students dictionary
 def makePairs(instudent, volstudent, points, allPairs):
@@ -124,10 +128,6 @@ def findPoints(incomingstudents):
         incomingstudents[instudent].getEmail(), sep="")
         print('')
 
-
-
-
-
 #The main function of the whole program
 def main():
     #This variable (incomingstudents) is a list of student objects
@@ -135,15 +135,5 @@ def main():
     findPoints(incomingstudents)
 
 main()
-
-
-
-
-
-
-
-
-
-
 
 ##
