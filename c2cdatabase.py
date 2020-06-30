@@ -48,16 +48,16 @@ def makestudent(listofatt):
 #This function creates a list of the students
 #Each element of the list is an object of the student class
 def studentList(students, variables):
-    for j in range(students):
+    for student in range(students):
         listofatt = []
-        for k in range(variables):
+        for variable in range(variables):
             #First value of the coordinate is the rows
             #Second value of the coordinate is the columns
             #Need to add 2 to the rows to make up for starting at 0 and
             #for having a "title row"
             #Need to add 1 to the columns to make up for starting at 0
 
-            listofatt.append((wks.cell(int(j)+2, k + 1).value))
+            listofatt.append((wks.cell(int(student)+2, variable + 1).value))
 
         makestudent(listofatt)
     return studentclasslist
@@ -69,15 +69,16 @@ incomingstudents = studentList(totalstudents, totalvariables)
 
 
 #Adds volunteers and their compatability to each incoming students dictionary
-def makePairs(i,j,points, allPairs):
-    allPairs['volunteer{}'.format(j)] = points
+def makePairs(instudent, volstudent, points, allPairs):
+    allPairs['volunteer{}'.format(volstudent)] = points
     return allPairs
 
 #Finds each incoming students best match by using the makePairs function above
 #The for loops in this function allow one incoming student to be compared with all volunteers
 def findPoints():
 
-    for i in range((len(incomingstudents))):
+    #instudent stands for incoming student
+    for instudent in range((len(incomingstudents))):
 
         #sleep is used to avoid requests/second error
         time.sleep(.25)
@@ -87,18 +88,19 @@ def findPoints():
         #The keys are the volunteers
         #The values are each volunteers compatability with the incoming student
         allPairs = {}
-        inpronouns = incomingstudents[i].getPronouns()
-        ininterest = incomingstudents[i].getInterests()
+        inpronouns = incomingstudents[instudent].getPronouns()
+        ininterest = incomingstudents[instudent].getInterests()
 
         #This second for loop is the thing that iterates through the second set of data
         #Right now, it's iterating through the same list as above
         #Later, this will be the volunteer student list
-        for j in range((len(incomingstudents))):
+        #volstudent stands for volunteer student
+        for volstudent in range((len(incomingstudents))):
 
             points = 0
 
-            vpronouns = incomingstudents[j].getPronouns()
-            vinterest = incomingstudents[j].getInterests()
+            vpronouns = incomingstudents[volstudent].getPronouns()
+            vinterest = incomingstudents[volstudent].getInterests()
 
             #If the incoming and volunteer students' pronouns are the same,
             #their compatability goes up by 5 points
@@ -117,15 +119,15 @@ def findPoints():
             #Creates the dictionary for the incoming student
             #Each key is one of the volunteers and each value is their
             #respective compatability
-            makePairs(i+1,j+1,points, allPairs)
+            makePairs(instudent+1, volstudent+1, points, allPairs)
 
         #Finds the volunteer with the highest compatability
         #The variable is the name of one of the volunteers in the dictionary
         bestmatch = max(allPairs.items(), key=operator.itemgetter(1))[0]
 
-        print("Incoming ", i+1, "'s top match is ", bestmatch, " with a total of ", \
+        print("Incoming ", instudent+1, "'s top match is ", bestmatch, " with a total of ", \
         allPairs[bestmatch], " points! \nNow we have to email: ", \
-        incomingstudents[i].getEmail(), sep="")
+        incomingstudents[instudent].getEmail(), sep="")
         print('')
 findPoints()
 
