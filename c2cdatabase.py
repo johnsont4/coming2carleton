@@ -28,16 +28,14 @@ data = wks.get_all_records()
 
 
 #Counts total number of students who filled out the form
-studentcount = 0
-for i in data:
-    studentcount = studentcount + 1
-totalstudents = studentcount
+for index, students in enumerate(data, start = 1):
+    pass
+totalstudents = index
 
 #Counts total number of variables
-variablecount = 0
-for i in data[0]:
-    variablecount = variablecount + 1
-totalvariables = int(variablecount)
+for index, variables in enumerate(data[0], start = 1):
+    pass
+totalvariables = index
 
 #Makes students using the student class
 studentclasslist = []
