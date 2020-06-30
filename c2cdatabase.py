@@ -1,8 +1,10 @@
 #Access to Google Spreadsheats
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+
 #Imports student class containing each students' attributes
 from student import Student
+
 #Needed for dictionary commands
 import operator
 import time
@@ -25,7 +27,6 @@ wks = gc.open('GoogleF').sheet1
 data = wks.get_all_records()
 
 #############################################################################
-
 
 #Counts total number of students who filled out the form
 studentcount = 0
@@ -66,9 +67,6 @@ def studentList(students, variables):
 
 #This variable (incomingstudents) is a list of student objects
 incomingstudents = studentList(totalstudents, totalvariables)
-
-
-
 
 #Adds volunteers and their compatability to each incoming students dictionary
 def makePairs(i,j,points, allPairs):
@@ -130,12 +128,6 @@ def findPoints():
         incomingstudents[i].getEmail(), sep="")
         print('')
 findPoints()
-
-
-
-
-
-
 
 
 
