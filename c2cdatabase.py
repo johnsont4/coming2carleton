@@ -62,9 +62,6 @@ def studentList(students, variables):
         makestudent(listofatt)
     return studentclasslist
 
-#This variable (incomingstudents) is a list of student objects
-incomingstudents = studentList(totalstudents, totalvariables)
-
 
 
 
@@ -75,7 +72,7 @@ def makePairs(instudent, volstudent, points, allPairs):
 
 #Finds each incoming students best match by using the makePairs function above
 #The for loops in this function allow one incoming student to be compared with all volunteers
-def findPoints():
+def findPoints(incomingstudents):
 
     #instudent stands for incoming student
     for instudent in range((len(incomingstudents))):
@@ -129,7 +126,16 @@ def findPoints():
         allPairs[bestmatch], " points! \nNow we have to email: ", \
         incomingstudents[instudent].getEmail(), sep="")
         print('')
-findPoints()
+
+
+
+def main():
+    #This variable (incomingstudents) is a list of student objects
+    incomingstudents = studentList(totalstudents, totalvariables)
+    findPoints(incomingstudents)
+
+main()
+
 
 
 
