@@ -1,4 +1,4 @@
-
+#Access to Google Spreadsheats
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from student import Student
@@ -15,6 +15,8 @@ gc = gspread.authorize(credentials)
 
 wks = gc.open('GoogleF').sheet1
 
+#This creates a list of all the data on the spreadsheet
+#Each element of the list is another list that contains each students' attributes
 data = wks.get_all_records()
 
 #############################################################################
@@ -39,67 +41,10 @@ def makestudent(listofatt):
     student = Student(listofatt)
     studentclasslist.append(student)
 
-#Sorts data by columns
-"""def sortbycolumn():
-    #Prints timestamp
-    for j in range(totalstudents):
-        print(wks.cell(int(j)+1, 1).value)
 
-    #Prints pronouns
-    for j in range(totalstudents):
-        print(wks.cell(int(j)+1, 2).value)
-
-    #Prints interests
-    for j in range(totalstudents):
-        print(wks.cell(int(j)+1, 3).value)
-
-    #Prints hometown
-    for j in range(totalstudents):
-        print(wks.cell(int(j)+1, 4).value)
-
-    #Prints Email
-    for j in range(totalstudents):
-        print(wks.cell(int(j)+1, 5).value)"""
-#sortbycolumn()
-
-#Sorts data by rows (by students, so more helpful)
-"""def sortbyrow(students, variables):
-    individualstudents = []
-    studentlist = []
-    print(type(studentlist))
-    for j in range(students):
-        for k in range(variables):
-            #First value of the coordinate is the rows
-            #Second value of the coordinate is the columns
-            #Need to add 2 to the rows to make up for starting at 0 and
-            #for having a "title row"
-            #Need to add 1 to the columns to make up for starting at 0
-
-            individualstudents.append(wks.cell(int(j)+2, k + 1).value)
-            print(individualstudents)
-    studentlist = list(studentlist.append(individualstudents))
-    print(studentlist)
-    individualstudents = []"""
-
-#sortbyrow(totalstudents, totalvariables)
-
-
-"""def basicsortbyrow():
-    for j in range(totalstudents):
-        print("")
-        print("Student #",j+1,":",sep='')
-        for k in range(totalvariables):
-            #First value of the coordinate is the rows
-            #Second value of the coordinate is the columns
-            #Need to add 2 to the rows to make up for starting at 0 and
-            #for having a "title row"
-            #Need to add 1 to the columns to make up for starting at 0
-
-            print(wks.cell(int(j)+2, k + 1).value)"""
-
-#basicsortbyrow()
-
-def studenttest(students, variables):
+#This function creates a list of the students
+#Each element of the list is an object of the student class
+def studentList(students, variables):
     for j in range(students):
         listofatt = []
         for k in range(variables):
@@ -111,52 +56,73 @@ def studenttest(students, variables):
 
             listofatt.append((wks.cell(int(j)+2, k + 1).value))
 
-
-
-
         makestudent(listofatt)
     return studentclasslist
 
-incomingstudents = studenttest(totalstudents, totalvariables)
+#This variable (incomingstudents) is a list of student objects
+incomingstudents = studentList(totalstudents, totalvariables)
 
-#print(incomingstudents)
 
 
+
+#Adds volunteers and their compatability to each incoming students dictionary
 def makePairs(i,j,points, allPairs):
     allPairs['volunteer{}'.format(j)] = points
     return allPairs
 
+#Finds each incoming students best match by using the makePairs function above
+#The for loops in this function allow one incoming student to be compared with all volunteers
 def findPoints():
 
     for i in range((len(incomingstudents))):
+
+        #sleep is used to avoid requests/second error
+        time.sleep(.25)
+
+        #Each incoming student gets a dictionary
+        #This dictionary has keys and values
+        #The keys are the volunteers
+        #The values are each volunteers compatability with the incoming student
         allPairs = {}
         inpronouns = incomingstudents[i].getPronouns()
         ininterest = incomingstudents[i].getInterests()
+
+        #This second for loop is the thing that iterates through the second set of data
+        #Right now, it's iterating through the same list as above
+        #Later, this will be the volunteer student list
         for j in range((len(incomingstudents))):
 
-            #sleep is used to avoid requests/second error
-            time.sleep(.25)
-
             points = 0
+
             vpronouns = incomingstudents[j].getPronouns()
             vinterest = incomingstudents[j].getInterests()
 
+            #If the incoming and volunteer students' pronouns are the same,
+            #their compatability goes up by 5 points
             if inpronouns == vpronouns:
                 points = points + 5
             else:
                 pass
 
+            #If the incoming and volunteer students' interests are the same,
+            #their compatability goes up by 3 points
             if ininterest == vinterest:
                 points = points + 3
             else:
                 pass
 
-            x = makePairs(i+1,j+1,points, allPairs)
-        pairpoints = allPairs.values()
-        bestpair = max(allPairs.items(), key=operator.itemgetter(1))[0]
+            #Creates the dictionary for the incoming student
+            #Each key is one of the volunteers and each value is their
+            #respective compatability
+            makePairs(i+1,j+1,points, allPairs)
 
-        print("Incoming ", i+1, "'s top match is ", bestpair, " with a total of ", \
-        allPairs[bestpair], " points! \nNow we have to email: ", incomingstudents[i].getEmail(), sep="")
+        #Finds the volunteer with the highest compatability
+        #The variable is the name of one of the volunteers in the dictionary
+        bestmatch = max(allPairs.items(), key=operator.itemgetter(1))[0]
+
+        print("Incoming ", i+1, "'s top match is ", bestmatch, " with a total of ", \
+        allPairs[bestmatch], " points! \nNow we have to email: ", \
+        incomingstudents[i].getEmail(), sep="")
         print('')
 findPoints()
 
