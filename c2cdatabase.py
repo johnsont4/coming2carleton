@@ -1,6 +1,4 @@
-import pip
-pip.main(["install", "gspread"])
-from oauth2client.service_account import ServiceAccountCredentials
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from student import Student
