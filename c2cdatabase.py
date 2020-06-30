@@ -1,16 +1,21 @@
 #Access to Google Spreadsheats
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+#Imports student class containing each students' attributes
 from student import Student
+#Needed for dictionary commands
 import operator
 import time
 
+#These are the websites that need to be accessed to get data from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
 
+#Uses info from the JSON file and the scope to access Teagan's google drive
 credentials = ServiceAccountCredentials.from_json_keyfile_name\
 ('Coming2Carleton.json', scope)
 
+#Uses the credentials to access google spreadsheets
 gc = gspread.authorize(credentials)
 
 wks = gc.open('GoogleF').sheet1
