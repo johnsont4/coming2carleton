@@ -128,10 +128,6 @@ def findPoints(incomingstudents):
         incomingstudents[instudent].getEmail(), sep="")
         print('')
 
-
-
-
-
 #The main function of the whole program
 def main():
     #This variable (incomingstudents) is a list of student objects
@@ -140,8 +136,6 @@ def main():
 
 main()
 
-
-
-
+#test
 
 ##
