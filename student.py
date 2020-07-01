@@ -1,15 +1,15 @@
 class Student():
-    def __init__(self, listofatt):
-        time = listofatt[0]
-        firstName = listofatt[1]
-        lastName = listofatt[2]
-        pronouns = listofatt[3]
-        study = listofatt[4]
-        domOrInt = listofatt[5]
-        state = listofatt[6]
-        activities = listofatt[7]
-        race = listofatt[8]
-        email = listofatt[9]
+    def __init__(self, listOfAtt):
+        time = listOfAtt[0]
+        firstName = listOfAtt[1]
+        lastName = listOfAtt[2]
+        pronouns = listOfAtt[3]
+        study = listOfAtt[4]
+        domOrInt = listOfAtt[5]
+        state = listOfAtt[6]
+        activities = listOfAtt[7]
+        race = listOfAtt[8]
+        email = listOfAtt[9]
 
         self.time = time
         self.firstName = firstName
