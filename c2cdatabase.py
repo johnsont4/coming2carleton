@@ -47,7 +47,7 @@ def makeStudent(listOfAtt):
     student = Student(listOfAtt)
     studentClassList.append(student)
 
-def createStudentList2(data):
+def createStudentList(data):
     for attributes in data:
         attributes = list(attributes.values())
         makeStudent(attributes)
@@ -127,7 +127,7 @@ def findMatches(incomingStudents):
 #The main function of the whole program
 def main():
     # Creates a list of Student objects
-    incomingStudents = createStudentList2(data)
+    incomingStudents = createStudentList(data)
 
     # finds best match for each student and prints out results
     findMatches(incomingStudents)
