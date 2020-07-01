@@ -9,7 +9,7 @@ from student import Student
 import operator
 import time
 
-# These are the websites that need to be accessed to get data from Google Drive
+# These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
 
@@ -21,20 +21,24 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name\
 # Uses the credentials variable to access google spreadsheets
 gc = gspread.authorize(credentials)
 
-wks = gc.open('GoogleF').sheet1
+inwks = gc.open('GoogleF').sheet1
 
-# This creates a list of all the data on the spreadsheet
+volwks = gc.open("GoogleF").get_worksheet(1)
+
+# This creates a list of all the incomingData on the spreadsheet
 # Each element of the list is another list that contains each students' attributes
-data = wks.get_all_records()
+incomingData = inwks.get_all_records()
+
+volunteerData = volwks.get_all_records()
 #############################################################################
 
 # Gets number of students who filled out the form
-for index, students in enumerate(data, start = 1):
+for index, students in enumerate(incomingData, start = 1):
     pass
 numStudents = index
 
 # Gets number of variables
-for index, variables in enumerate(data[0], start = 1):
+for index, variables in enumerate(incomingData[0], start = 1):
     pass
 numVariables = index
 
@@ -47,8 +51,8 @@ def makeStudent(listOfAtt):
     student = Student(listOfAtt)
     studentClassList.append(student)
 
-def createStudentList2(data):
-    for attributes in data:
+def createStudentList2(incomingData):
+    for attributes in incomingData:
         attributes = list(attributes.values())
         makeStudent(attributes)
     return studentClassList
@@ -75,7 +79,7 @@ def findMatches(incomingStudents):
         incomingActivities = incomingStudents[incomingStudent].getActivities()
         incomingRace = incomingStudents[incomingStudent].getRace()
 
-        # This second for loop is the thing that iterates through the second set of data
+        # This second for loop is the thing that iterates through the second set of incomingData
         # Right now, it's iterating through the same list as above
         # Later, this will be the volunteer student list
         # volStudent stands for volunteer student
@@ -127,7 +131,7 @@ def findMatches(incomingStudents):
 #The main function of the whole program
 def main():
     # Creates a list of Student objects
-    incomingStudents = createStudentList2(data)
+    incomingStudents = createStudentList2(incomingData)
 
     # finds best match for each student and prints out results
     findMatches(incomingStudents)
