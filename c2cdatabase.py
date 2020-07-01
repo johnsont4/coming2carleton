@@ -26,7 +26,6 @@ wks = gc.open('GoogleF').sheet1
 # This creates a list of all the data on the spreadsheet
 # Each element of the list is another list that contains each students' attributes
 data = wks.get_all_records()
-
 #############################################################################
 
 # Gets number of students who filled out the form
@@ -48,22 +47,10 @@ def makeStudent(listOfAtt):
     student = Student(listOfAtt)
     studentClassList.append(student)
 
-# This function actually creates the list of Student objects
-def createStudentList(students, variables):
-    for student in range(students):
-        time.sleep(0.2)
-        listOfAtt = []
-        for variable in range(variables):
-
-            #First value of the coordinate is the rows
-            #Second value of the coordinate is the columns
-            #Need to add 2 to the rows to make up for starting at 0 and
-            #for having a "title row"
-            #Need to add 1 to the columns to make up for starting at 0
-
-            listOfAtt.append((wks.cell(int(student) + 2, variable + 1).value))
-
-        makeStudent(listOfAtt)
+def createStudentList2(data):
+    for attributes in data:
+        attributes = list(attributes.values())
+        makeStudent(attributes)
     return studentClassList
 
 # Adds a volStudent with their compatability with the incoming student into the incoming student's dictionary each time it is called.
@@ -132,7 +119,7 @@ def findMatches(incomingStudents):
         # The variable is the name of one of the volunteers in the dictionary
         bestmatch = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        print("Incoming ", incomingStudent + 1, "'s top match is ", bestmatch, " with a total of ", \
+        print(incomingStudents[incomingStudent].getFirstName(), "'s top match is ", bestmatch, " with a total of ", \
         allPairs[bestmatch], " points! \nNow we have to email: ", \
         incomingStudents[incomingStudent].getEmail(), sep="")
         print('')
@@ -140,7 +127,7 @@ def findMatches(incomingStudents):
 #The main function of the whole program
 def main():
     # Creates a list of Student objects
-    incomingStudents = createStudentList(numStudents, numVariables)
+    incomingStudents = createStudentList2(data)
 
     # finds best match for each student and prints out results
     findMatches(incomingStudents)
