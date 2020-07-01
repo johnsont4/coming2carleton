@@ -4,6 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 #Imports student class containing each students' attributes
 from student import Student
+
 #Needed for dictionary commands
 import operator
 import time
@@ -31,25 +32,25 @@ data = wks.get_all_records()
 #Counts total number of students who filled out the form
 for index, students in enumerate(data, start = 1):
     pass
-totalstudents = index
+numStudents = index
 
 #Counts total number of variables
 for index, variables in enumerate(data[0], start = 1):
     pass
-totalvariables = index
+numVariables = index
 
-#Makes students using the student class
-studentclasslist = []
-def makestudent(listofatt):
+#Makes a student using the student class
+studentClassList = []
+def makeStudent(listOfAtt):
 
-    student = Student(listofatt)
-    studentclasslist.append(student)
+    student = Student(listOfAtt)
+    studentClassList.append(student)
 
 #This function creates a list of the students
 #Each element of the list is an object of the student class
 def studentList(students, variables):
     for student in range(students):
-        listofatt = []
+        listOfAtt = []
         for variable in range(variables):
             #First value of the coordinate is the rows
             #Second value of the coordinate is the columns
@@ -57,22 +58,25 @@ def studentList(students, variables):
             #for having a "title row"
             #Need to add 1 to the columns to make up for starting at 0
 
-            listofatt.append((wks.cell(int(student)+2, variable + 1).value))
+            listOfAtt.append((wks.cell(int(student)+2, variable + 1).value))
 
-        makestudent(listofatt)
-    return studentclasslist
+        makeStudent(listOfAtt)
+    return studentClassList
+
+#This variable (incomingStudents) is a list of student objects
+incomingStudents = studentList(numStudents, numVariables)
 
 #Adds volunteers and their compatability to each incoming students dictionary
-def makePairs(instudent, volstudent, points, allPairs):
-    allPairs['volunteer{}'.format(volstudent)] = points
+def makePair(incomingStudent, volStudent, points, allPairs):
+    allPairs['volunteer{}'.format(volStudent)] = points
     return allPairs
 
-#Finds each incoming students best match by using the makePairs function above
+#Finds each incoming students best match by using the makePair function above
 #The for loops in this function allow one incoming student to be compared with all volunteers
-def findPoints(incomingstudents):
+def findMatches(incomingStudents):
 
-    #instudent stands for incoming student
-    for instudent in range((len(incomingstudents))):
+    #incomingStudent stands for incoming student
+    for incomingStudent in range((len(incomingStudents))):
 
         #sleep is used to avoid requests/second error
         time.sleep(.25)
@@ -82,69 +86,55 @@ def findPoints(incomingstudents):
         #The keys are the volunteers
         #The values are each volunteers compatability with the incoming student
         allPairs = {}
-
-        inpronouns = incomingstudents[instudent].getPronouns()
-        ininterest = incomingstudents[instudent].getInterests()
+        incomingPronouns = incomingStudents[incomingStudent].getPronouns()
+        incomingInterests = incomingStudents[incomingStudent].getInterests()
 
         #This second for loop is the thing that iterates through the second set of data
         #Right now, it's iterating through the same list as above
         #Later, this will be the volunteer student list
-        #volstudent stands for volunteer student
-        for volstudent in range((len(incomingstudents))):
+        #volStudent stands for volunteer student
+        for volStudent in range((len(incomingStudents))):
 
             points = 0
 
-            vpronouns = incomingstudents[volstudent].getPronouns()
-            vinterest = incomingstudents[volstudent].getInterests()
+            volPronouns = incomingStudents[volStudent].getPronouns()
+            volInterests = incomingStudents[volStudent].getInterests()
 
             #If the incoming and volunteer students' pronouns are the same,
             #their compatability goes up by 5 points
-            if inpronouns == vpronouns:
+            if incomingPronouns == volPronouns:
                 points = points + 5
-            else:
-                pass
 
             #If the incoming and volunteer students' interests are the same,
             #their compatability goes up by 3 points
-            if ininterest == vinterest:
+            if incomingInterests == volInterests:
                 points = points + 3
-            else:
-                pass
 
             #Creates the dictionary for the incoming student
             #Each key is one of the volunteers and each value is their
             #respective compatability
-            makePairs(instudent+1, volstudent+1, points, allPairs)
+            makePair(incomingStudent + 1, volStudent + 1, points, allPairs)
 
         #Finds the volunteer with the highest compatability
         #The variable is the name of one of the volunteers in the dictionary
-        bestmatch = max(allPairs.items(), key=operator.itemgetter(1))[0]
+        bestmatch = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        print("Incoming ", instudent+1, "'s top match is ", bestmatch, " with a total of ", \
+        print("Incoming ", incomingStudent + 1, "'s top match is ", bestmatch, " with a total of ", \
         allPairs[bestmatch], " points! \nNow we have to email: ", \
-        incomingstudents[instudent].getEmail(), sep="")
+        incomingStudents[incomingStudent].getEmail(), sep="")
         print('')
-
-
-
-
 
 #The main function of the whole program
 def main():
-    #This variable (incomingstudents) is a list of student objects
-    incomingstudents = studentList(totalstudents, totalvariables)
-    findPoints(incomingstudents)
+    #This variable (incomingStudents) is a list of student objects
+    incomingStudents = studentList(numStudents, numVariables)
+
+    #finds best match for each student and prints out results
+    findMatches(incomingStudents)
 
 main()
 
-
-
-
-
-
-
-
-
-
+#test
+#poopybuttcheeks
 
 ##
