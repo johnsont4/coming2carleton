@@ -32,6 +32,7 @@ data = wks.get_all_records()
 #Counts total number of students who filled out the form
 for index, students in enumerate(data, start = 1):
     pass
+print(index)
 numStudents = index
 
 #Counts total number of variables
@@ -50,8 +51,11 @@ def makeStudent(listOfAtt):
 #Each element of the list is an object of the student class
 def studentList(students, variables):
     for student in range(students):
+        time.sleep(1)
         listOfAtt = []
         for variable in range(variables):
+            #sleep is used to avoid requests/second error
+            time.sleep(.5)
             #First value of the coordinate is the rows
             #Second value of the coordinate is the columns
             #Need to add 2 to the rows to make up for starting at 0 and
@@ -78,16 +82,13 @@ def findMatches(incomingStudents):
     #incomingStudent stands for incoming student
     for incomingStudent in range((len(incomingStudents))):
 
-        #sleep is used to avoid requests/second error
-        time.sleep(.25)
-
         #Each incoming student gets a dictionary
         #This dictionary has keys and values
         #The keys are the volunteers
         #The values are each volunteers compatability with the incoming student
         allPairs = {}
         incomingPronouns = incomingStudents[incomingStudent].getPronouns()
-        incomingInterests = incomingStudents[incomingStudent].getInterests()
+        incomingActivities = incomingStudents[incomingStudent].getActivities()
 
         #This second for loop is the thing that iterates through the second set of data
         #Right now, it's iterating through the same list as above
@@ -95,19 +96,22 @@ def findMatches(incomingStudents):
         #volStudent stands for volunteer student
         for volStudent in range((len(incomingStudents))):
 
+            #sleep is used to avoid requests/second error
+
+
             points = 0
 
             volPronouns = incomingStudents[volStudent].getPronouns()
-            volInterests = incomingStudents[volStudent].getInterests()
+            volActivities = incomingStudents[volStudent].getActivities()
 
             #If the incoming and volunteer students' pronouns are the same,
             #their compatability goes up by 5 points
             if incomingPronouns == volPronouns:
                 points = points + 5
 
-            #If the incoming and volunteer students' interests are the same,
+            #If the incoming and volunteer students' activities are the same,
             #their compatability goes up by 3 points
-            if incomingInterests == volInterests:
+            if incomingActivities == volActivities:
                 points = points + 3
 
             #Creates the dictionary for the incoming student
@@ -134,7 +138,5 @@ def main():
 
 main()
 
-#test
-#poopybuttcheeks
 
 ##
