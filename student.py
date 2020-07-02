@@ -1,26 +1,15 @@
 class Student():
     def __init__(self, listOfAtt):
-        time = listOfAtt[0]
-        firstName = listOfAtt[1]
-        lastName = listOfAtt[2]
-        pronouns = listOfAtt[3]
-        study = listOfAtt[4]
-        domOrInt = listOfAtt[5]
-        state = listOfAtt[6]
-        activities = listOfAtt[7]
-        race = listOfAtt[8]
-        email = listOfAtt[9]
-
-        self.time = time
-        self.firstName = firstName
-        self.lastName = lastName
-        self.pronouns = pronouns
-        self.study = study
-        self.domOrInt = domOrInt
-        self.state = state
-        self.activities = activities
-        self.race = race
-        self.email = email
+        self.time = listOfAtt[0]
+        self.firstName = listOfAtt[1]
+        self.lastName = listOfAtt[2]
+        self.pronouns = listOfAtt[3]
+        self.study = listOfAtt[4]
+        self.domOrInt = listOfAtt[5]
+        self.state = listOfAtt[6]
+        self.activities = listOfAtt[7]
+        self.race = listOfAtt[8]
+        self.email = listOfAtt[9]
 
     def getTime(self):
         return self.time
