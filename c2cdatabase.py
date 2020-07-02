@@ -31,6 +31,7 @@ volwks = gc.open("GoogleF").get_worksheet(1)
 incomingData = inwks.get_all_records()
 
 volunteerData = volwks.get_all_records()
+
 #############################################################################
 
 # Two lists that will hold incoming students and volunteer students
@@ -51,7 +52,9 @@ def createInStudentList(data):
         attributes = list(attributes.values())
         student = makeStudent(attributes)
         inStudentList.append(student)
+
     return inStudentList
+
 
 # This function creates all the volunteer Students objects and adds them to volStudentList
 def createVolStudentList(data):
