@@ -98,7 +98,7 @@ def findMatches(incomingStudents, volunteerStudents):
 
             # the following if statements increment the points of a pairing by checking similarities in answers
             if inPronouns == volPronouns:
-                points = points + 5
+                points = points + 3
 
             # need to write a function called compareInterests() that compares both students' areas of interest and spits out a
             '''
@@ -106,11 +106,11 @@ def findMatches(incomingStudents, volunteerStudents):
                 points = points + compareInterests(incomingStudents[incomingStudent], )
             '''
             if inDomOrInt == volDomOrInt:
-                points = points + 4
-            if inState == volState:
-                points = points + .5
-            if inActivities == volActivities:
                 points = points + 3
+            if inState == volState:
+                points = points + 1
+            """if inActivities == volActivities:
+                points = points + 3"""
             if inRace == volRace:
                 points = points + 3
 
