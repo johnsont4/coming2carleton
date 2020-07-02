@@ -89,7 +89,8 @@ def getCompatibility(inStudent, volStudent):
     if inPronouns == volPronouns:
         points = points + 3
 
-    points = points + inStudent.compareStudy(volStudent)
+    points += 5 * inStudent.compareAttribute(volStudent, "study")
+    points += 2 * inStudent.compareAttribute(volStudent, "activities")
 
     if inDomOrInt == volDomOrInt:
         points = points + 3
@@ -97,7 +98,7 @@ def getCompatibility(inStudent, volStudent):
     if inState == volState:
         points = points + 2
 
-    points = points + inStudent.compareActivities(volStudent)
+    ###points = points + inStudent.compareStudy(volStudent)
 
     if inRace == volRace:
         points = points + 3
