@@ -62,6 +62,8 @@ def createVolStudentList(data):
 def makePair(volStudent, points, allPairs):
     allPairs[volStudent.getFirstName()] = points
     return allPairs
+
+# Uses a series of if-statements and a couple methods to determine a number representing the compatibility between two students.
 def getCompatibility(inStudent, volStudent):
 
     inPronouns = inStudent.getPronouns()
@@ -104,20 +106,15 @@ def getCompatibility(inStudent, volStudent):
 # Finds each incoming student's best match by using the makePair() function above for every possible incomingStudent and volStudent combination and prints out the results
 def findMatches(incomingStudents, volunteerStudents):
 
-    # iterates through each incoming student
-    # Does this by iterating through incomingStudents, a list holding incoming Student objects
+    # Iterating through incomingStudents, a list holding incoming Student objects
     for inStudent in incomingStudents:
 
-        # Each incoming student gets a dictionary: allPairs
-        # This dictionary has keys and values
-        # The keys are the volunteers
-        # The values are each volunteer's compatability with the incoming student
+        # Each incoming student gets a dictionary, allPairs, which has keys(volunteer's name) and values(volunteer's compatability with the incoming student
 
         allPairs = {}
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
-        # Every incoming student is compared with every volunteer student
-        # iterates through volunteerStudents, a list holding volunteer Student objects
+        # Every incoming student is compared with every volunteer student by iterating through volunteerStudents, a list holding volunteer Student objects
 
         for volStudent in volunteerStudents:
 
