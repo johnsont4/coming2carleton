@@ -51,3 +51,11 @@ class Student():
 
     def getEmail(self):
         return self.email
+
+    def compareActivities(self, otherStudent):
+
+        activitiesSet = set(self.getActivities().split(","))
+        intersection = activitiesSet.intersection(otherStudent.getActivities().split(","))
+        numIntersections = len(list(intersection))
+        #print("the number of intersecting activities between" , self.getFirstName(), " and ", otherStudent.getFirstName(), " is ", numIntersections)
+        return numIntersections

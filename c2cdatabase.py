@@ -63,6 +63,7 @@ def makePair(volStudent, points, allPairs):
     allPairs[volStudent.getFirstName()] = points
     return allPairs
 def getCompatibility(inStudent, volStudent):
+
     inPronouns = inStudent.getPronouns()
     inStudy = inStudent.getStudy()
     inDomOrInt = inStudent.getDomOrInt()
@@ -94,9 +95,7 @@ def getCompatibility(inStudent, volStudent):
     if inState == volState:
         points = points + 1
 
-    # need to write a function called compareActivities() that compares both students' activities and spits out a point total
-    '''if inActivities == volActivities:
-        points = points + 3'''
+    points = points + inStudent.compareActivities(volStudent)
 
     if inRace == volRace:
         points = points + 3
