@@ -54,12 +54,10 @@ def createInStudentList(data):
 
     return inStudentList
 
-<<<<<<< HEAD
 
 # This function creates all the volunteer Students objects and adds them to volStudentList
-=======
 # This function creates all the volunteer Students objects and adds each key-value pair to the dictionary.
->>>>>>> 7a4018650105364410f707337722c737de33b01b
+
 def createVolStudentList(data):
     for attributes in data:
         attributes = list(attributes.values())
@@ -96,7 +94,9 @@ def getCompatibility(inStudent, volStudent):
     if inPronouns == volPronouns:
         points = points + 3
 
-    points = points + inStudent.compareStudy(volStudent)
+    points = points + 5 * (inStudent.compareLists(volStudent, "study"))
+
+    points = points + 2 * (inStudent.compareLists(volStudent, "activities"))
 
     if inDomOrInt == volDomOrInt:
         points = points + 3
@@ -104,7 +104,6 @@ def getCompatibility(inStudent, volStudent):
     if inState == volState:
         points = points + 2
 
-    points = points + inStudent.compareActivities(volStudent)
 
     if inRace == volRace:
         points = points + 3

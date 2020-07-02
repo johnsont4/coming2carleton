@@ -52,36 +52,40 @@ class Student():
     def getEmail(self):
         return self.email
 
-    def compareActivities(self, otherStudent):
-        # the following two lines strip all white space from each string in the two lists
-        strippedList1 = [x.strip(' ') for x in self.getActivities().split(",")]
-        strippedList2 = [x.strip(' ') for x in otherStudent.getActivities().split(",")]
+    def compareLists(self, otherStudent, attribute):
+        if attribute == "study":
+            # the following two lines strip all white space from each string in the two lists
+            strippedList1 = [x.strip(' ') for x in self.getStudy().split(",")]
+            strippedList2 = [x.strip(' ') for x in otherStudent.getStudy().split(",")]
 
-        # the following two lines convert the lists into sets: unordered collections of elements
-        activitiesSet1 = set(strippedList1)
-        activitiesSet2 = set(strippedList2)
+            # the following two lines convert the lists into sets: unordered collections of elements
+            studySet1 = set(strippedList1)
+            studySet2 = set(strippedList2)
 
-        # use a set's built-in intersection function to find the number of intersections
-        intersection = activitiesSet1.intersection(activitiesSet2)
-        numIntersections = len(list(intersection))
+            # use a set's built-in intersection function to find the number of intersections
+            intersection = studySet1.intersection(studySet2)
+            numIntersections = len(list(intersection))
+        elif attribute == "activities":
+            # the following two lines strip all white space from each string in the two lists
+            strippedList1 = [x.strip(' ') for x in self.getActivities().split(",")]
+            strippedList2 = [x.strip(' ') for x in otherStudent.getActivities().split(",")]
+
+            # the following two lines convert the lists into sets: unordered collections of elements
+            activitiesSet1 = set(strippedList1)
+            activitiesSet2 = set(strippedList2)
+
+            # use a set's built-in intersection function to find the number of intersections
+            intersection = activitiesSet1.intersection(activitiesSet2)
+            numIntersections = len(list(intersection))
+
 
         #print("the number of intersecting activities between" , self.getFirstName(), " and ", otherStudent.getFirstName(), " is ", numIntersections)
 
-        return numIntersections * 2
+        return numIntersections
 
-    def compareStudy(self, otherStudent):
-        # the following two lines strip all white space from each string in the two lists
-        strippedList1 = [x.strip(' ') for x in self.getStudy().split(",")]
-        strippedList2 = [x.strip(' ') for x in otherStudent.getStudy().split(",")]
 
-        # the following two lines convert the lists into sets: unordered collections of elements
-        studySet1 = set(strippedList1)
-        studySet2 = set(strippedList2)
 
-        # use a set's built-in intersection function to find the number of intersections
-        intersection = studySet1.intersection(studySet2)
-        numIntersections = len(list(intersection))
 
-        #print("the number of intersecting areas of study between" , self.getFirstName(), " and ", otherStudent.getFirstName(), " is ", numIntersections)
 
-        return numIntersections * 5
+
+        ##
