@@ -62,6 +62,46 @@ def createVolStudentList(data):
 def makePair(volStudent, points, allPairs):
     allPairs[volStudent.getFirstName()] = points
     return allPairs
+def getCompatibility(inStudent, volStudent):
+    inPronouns = inStudent.getPronouns()
+    inStudy = inStudent.getStudy()
+    inDomOrInt = inStudent.getDomOrInt()
+    inState = inStudent.getState()
+    inActivities = inStudent.getActivities()
+    inRace = inStudent.getRace()
+
+    volPronouns = volStudent.getPronouns()
+    volStudy = volStudent.getStudy()
+    volDomOrInt = volStudent.getDomOrInt()
+    volState = volStudent.getState()
+    volActivities = volStudent.getActivities()
+    volRace = volStudent.getRace()
+
+    points = 0
+
+    # the following series of if-statements increment the points of a pairing by checking similarities in answers
+    if inPronouns == volPronouns:
+        points = points + 3
+
+    # need to write a function called compareInterests() that compares both students' areas of interest and spits out a point total
+    '''
+    if inStudy == volStudy:
+        points = points + compareInterests(incomingStudents[incomingStudent], )
+    '''
+
+    if inDomOrInt == volDomOrInt:
+        points = points + 3
+    if inState == volState:
+        points = points + 1
+
+    # need to write a function called compareActivities() that compares both students' activities and spits out a point total
+    '''if inActivities == volActivities:
+        points = points + 3'''
+
+    if inRace == volRace:
+        points = points + 3
+
+    return points
 
 # Finds each incoming student's best match by using the makePair() function above for every possible incomingStudent and volStudent combination and prints out the results
 def findMatches(incomingStudents, volunteerStudents):
@@ -76,12 +116,6 @@ def findMatches(incomingStudents, volunteerStudents):
         # The values are each volunteer's compatability with the incoming student
 
         allPairs = {}
-        inPronouns = inStudent.getPronouns()
-        inStudy = inStudent.getStudy()
-        inDomOrInt = inStudent.getDomOrInt()
-        inState = inStudent.getState()
-        inActivities = inStudent.getActivities()
-        inRace = inStudent.getRace()
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
         # Every incoming student is compared with every volunteer student
@@ -89,39 +123,10 @@ def findMatches(incomingStudents, volunteerStudents):
 
         for volStudent in volunteerStudents:
 
-            points = 0
-
-            volPronouns = volStudent.getPronouns()
-            volStudy = volStudent.getStudy()
-            volDomOrInt = volStudent.getDomOrInt()
-            volState = volStudent.getState()
-            volActivities = volStudent.getActivities()
-            volRace = volStudent.getRace()
-
-            # the following series of if-statements increment the points of a pairing by checking similarities in answers
-            if inPronouns == volPronouns:
-                points = points + 3
-
-            # need to write a function called compareInterests() that compares both students' areas of interest and spits out a point total
-            '''
-            if inStudy == volStudy:
-                points = points + compareInterests(incomingStudents[incomingStudent], )
-            '''
-
-            if inDomOrInt == volDomOrInt:
-                points = points + 3
-            if inState == volState:
-                points = points + 1
-
-            # need to write a function called compareActivities() that compares both students' activities and spits out a point total
-            '''if inActivities == volActivities:
-                points = points + 3'''
-
-            if inRace == volRace:
-                points = points + 3
+            compatibility = getCompatibility(inStudent, volStudent)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
-            makePair(volStudent, points, allPairs)
+            makePair(volStudent, compatibility, allPairs)
 
         # Finds the volunteer with the highest compatability
         # The variable is a string holding the first name of that volunteer
