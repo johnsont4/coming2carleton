@@ -85,15 +85,14 @@ def getCompatibility(inStudent, volStudent):
         points = points + 3
 
     # need to write a function called compareInterests() that compares both students' areas of interest and spits out a point total
-    '''
-    if inStudy == volStudy:
-        points = points + compareInterests(incomingStudents[incomingStudent], )
-    '''
+
+    points = points + inStudent.compareStudy(volStudent)
 
     if inDomOrInt == volDomOrInt:
         points = points + 3
+
     if inState == volState:
-        points = points + 1
+        points = points + 2
 
     points = points + inStudent.compareActivities(volStudent)
 
