@@ -42,7 +42,7 @@ class Student():
         return self.email
 
     def compareAttribute(self, otherStudent, attribute):
-        # the conditional assigns the desired attribute to the variables 
+        # the conditional assigns the desired attribute to the variables
         # then, their bodies strip all white space from each string in the two lists
         if attribute == "study":
             selfStrippedList = [x.strip(' ') for x in self.getStudy().split(",")]
