@@ -34,9 +34,8 @@ volunteerData = volwks.get_all_records()
 
 #############################################################################
 
-# Two lists that will hold incoming students and volunteer students
+# A list that will hold incoming students
 inStudentList = []
-volStudentList = []
 
 # A dictionary that will have volunteer names as keys and their respective Student object as keys
 volStudentDict = {}
@@ -55,20 +54,23 @@ def createInStudentList(data):
 
     return inStudentList
 
+<<<<<<< HEAD
 
 # This function creates all the volunteer Students objects and adds them to volStudentList
+=======
+# This function creates all the volunteer Students objects and adds each key-value pair to the dictionary.
+>>>>>>> 7a4018650105364410f707337722c737de33b01b
 def createVolStudentList(data):
     for attributes in data:
         attributes = list(attributes.values())
         volStudent = makeStudent(attributes)
-        volStudentList.append(volStudent)
-        volStudentDict[volStudent.getFirstName()] = volStudent
+        volStudentDict[volStudent.getFirstName() + volStudent.getLastName()] = volStudent
 
-    return volStudentList
+    return volStudentDict
 
 # Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's name and the value is the compatability between them
 def makePair(volStudent, points, allPairs):
-    allPairs[volStudent.getFirstName()] = points
+    allPairs[volStudent.getFirstName() + volStudent.getLastName()] = points
     return allPairs
 
 # Uses a series of if-statements and a couple methods to determine a number representing the compatibility between two students.
@@ -93,8 +95,6 @@ def getCompatibility(inStudent, volStudent):
     # the following series of if-statements increment the points of a pairing by checking similarities in answers
     if inPronouns == volPronouns:
         points = points + 3
-
-    # need to write a function called compareInterests() that compares both students' areas of interest and spits out a point total
 
     points = points + inStudent.compareStudy(volStudent)
 
@@ -121,9 +121,9 @@ def findMatches(incomingStudents, volunteerStudents):
         allPairs = {}
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
-        # Every incoming student is compared with every volunteer student by iterating through volunteerStudents, a list holding volunteer Student objects
-
-        for volStudent in volunteerStudents:
+        # Every incoming student is compared with every volunteer student by iterating through the values of volunteerStudents,
+        # a dictionary with keys = their first and last names, values = their respective Student obejct
+        for volStudent in volunteerStudents.values():
             compatibility = getCompatibility(inStudent, volStudent)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
@@ -133,18 +133,11 @@ def findMatches(incomingStudents, volunteerStudents):
         # The variable is a string holding the first name of that volunteer
         compatibleVolunteer = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        '''
-        # Converts from the volunteer's name to its object by iterating through volunteerStudents and finding the object matching the name
-        for volStudent in volunteerStudents:
-            if volStudent.getFirstName() == compatibleVolunteer:
-                compatibleVolunteer = volStudent
-        '''
-
-        #uses volStudentDict to get the volunteer Student object by inputting their first name.
+        #uses volStudentDict to get the volunteer Student object by inputting their first name + their last  name.
         compatibleVolunteer = volStudentDict[compatibleVolunteer]
 
         print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
-        \nTheir compatability score is: ", allPairs[compatibleVolunteer.getFirstName()], "\nNow, ", \
+        \nTheir compatability score is: ", allPairs[compatibleVolunteer.getFirstName() + compatibleVolunteer.getLastName()], "\nNow, ", \
         compatibleVolunteer.getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
         "'s email is: ", inStudent.getEmail(), ". \n", compatibleVolunteer.getFirstName(), "'s email is: ", \
         compatibleVolunteer.getEmail(), sep = "")
