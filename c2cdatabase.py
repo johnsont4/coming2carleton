@@ -59,7 +59,7 @@ def createVolStudentList(data):
 
 # Adds a volStudent with their compatability with the incoming student into the incoming student's dictionary each time it is called.
 def makePair(volStudent, points, allPairs):
-    allPairs[volStudent] = points
+    allPairs[volStudent.getFirstName()] = points
     return allPairs
 
 # Finds each incoming students best match by using the makePair() function above for every possible incomingStudent and volStudent combination
@@ -98,7 +98,7 @@ def findMatches(incomingStudents, volunteerStudents):
 
             # the following if statements increment the points of a pairing by checking similarities in answers
             if inPronouns == volPronouns:
-                points = points +5
+                points = points + 5
 
             # need to write a function called compareInterests() that compares both students' areas of interest and spits out a
             '''
@@ -123,8 +123,12 @@ def findMatches(incomingStudents, volunteerStudents):
         # The variable is the object of one of the volunteers in the dictionary
         compatibleVolunteer = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \nTheir compatability score is: ", \
-        allPairs[compatibleVolunteer], "\nNow, ", \
+        for volStudent in volunteerStudents:
+            if volStudent.getFirstName() == compatibleVolunteer:
+                compatibleVolunteer = volStudent
+
+        print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
+        \nTheir compatability score is: ", allPairs[compatibleVolunteer.getFirstName()], "\nNow, ", \
         compatibleVolunteer.getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
         "'s email is: ", inStudent.getEmail(), ". \n", compatibleVolunteer.getFirstName(), "'s email is: ", \
         compatibleVolunteer.getEmail(), sep = "")
