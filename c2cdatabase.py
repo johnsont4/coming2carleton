@@ -105,6 +105,8 @@ def findMatches(incomingStudents):
                 points = points + 3
             if incomingState == volState:
                 points = points + 3
+
+            # need to write a function called compareActivities() that compares both students' areas of interest and spits out a
             if incomingActivities == volActivities:
                 points = points + 3
             if incomingRace == volRace:
