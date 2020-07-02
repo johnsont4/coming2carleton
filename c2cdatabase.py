@@ -32,109 +32,115 @@ incomingData = inwks.get_all_records()
 volunteerData = volwks.get_all_records()
 #############################################################################
 
-# Gets number of students who filled out the form
-for index, students in enumerate(incomingData, start = 1):
-    pass
-numStudents = index
-
-# Gets number of variables
-for index, variables in enumerate(incomingData[0], start = 1):
-    pass
-numVariables = index
 
 # A list that will hold Student objects
-studentClassList = []
+inStudentList = []
+volStudentList = []
 
 # A function that makes a Student object each time it is called
 def makeStudent(listOfAtt):
 
     student = Student(listOfAtt)
-    studentClassList.append(student)
+    return student
 
-def createStudentList2(incomingData):
-    for attributes in incomingData:
+def createInStudentList(data):
+    for attributes in data:
         attributes = list(attributes.values())
-        makeStudent(attributes)
-    return studentClassList
+        student = makeStudent(attributes)
+        inStudentList.append(student)
+    return inStudentList
+
+def createVolStudentList(data):
+    for attributes in data:
+        attributes = list(attributes.values())
+        student = makeStudent(attributes)
+        volStudentList.append(student)
+    return volStudentList
 
 # Adds a volStudent with their compatability with the incoming student into the incoming student's dictionary each time it is called.
-def makePair(incomingStudent, volStudent, points, allPairs):
-    allPairs['volunteer{}'.format(volStudent)] = points
+def makePair(volStudent, points, allPairs):
+    allPairs[volStudent] = points
     return allPairs
 
 # Finds each incoming students best match by using the makePair() function above for every possible incomingStudent and volStudent combination
-def findMatches(incomingStudents):
+def findMatches(incomingStudents, volunteerStudents):
 
-    for incomingStudent in range((len(incomingStudents))):
+    for inStudent in incomingStudents:
 
         # Each incoming student gets a dictionary
         # This dictionary has keys and values
         # The keys are the volunteers
         # The values are each volunteer's compatability with the incoming student
         allPairs = {}
-        incomingPronouns = incomingStudents[incomingStudent].getPronouns()
-        incomingStudy = incomingStudents[incomingStudent].getStudy()
-        incomingDomOrInt = incomingStudents[incomingStudent].getDomOrInt()
-        incomingState = incomingStudents[incomingStudent].getState()
-        incomingActivities = incomingStudents[incomingStudent].getActivities()
-        incomingRace = incomingStudents[incomingStudent].getRace()
+        inPronouns = inStudent.getPronouns()
+        inStudy = inStudent.getStudy()
+        inDomOrInt = inStudent.getDomOrInt()
+        inState = inStudent.getState()
+        inActivities = inStudent.getActivities()
+        inRace = inStudent.getRace()
 
         # This second for loop is the thing that iterates through the second set of incomingData
         # Right now, it's iterating through the same list as above
         # Later, this will be the volunteer student list
         # volStudent stands for volunteer student
-        for volStudent in range((len(incomingStudents))):
+        for volStudent in volunteerStudents:
 
             #sleep is used to avoid requests/second error
 
             points = 0
 
-            volPronouns = incomingStudents[volStudent].getPronouns()
-            volStudy = incomingStudents[volStudent].getStudy()
-            volDomOrInt = incomingStudents[volStudent].getDomOrInt()
-            volState = incomingStudents[volStudent].getState()
-            volActivities = incomingStudents[volStudent].getActivities()
-            volRace = incomingStudents[volStudent].getRace()
+            volPronouns = volStudent.getPronouns()
+            volStudy = volStudent.getStudy()
+            volDomOrInt = volStudent.getDomOrInt()
+            volState = volStudent.getState()
+            volActivities = volStudent.getActivities()
+            volRace = volStudent.getRace()
 
             # the following if statements increment the points of a pairing by checking similarities in answers
-            if incomingPronouns == volPronouns:
-                points = points + 3
+            if inPronouns == volPronouns:
+                points = points +5
 
             # need to write a function called compareInterests() that compares both students' areas of interest and spits out a
             '''
-            if incomingStudy == volStudy:
+            if inStudy == volStudy:
                 points = points + compareInterests(incomingStudents[incomingStudent], )
             '''
-            if incomingDomOrInt == volDomOrInt:
+            if inDomOrInt == volDomOrInt:
+                points = points + 4
+            if inState == volState:
+                points = points + .5
+            if inActivities == volActivities:
                 points = points + 3
-            if incomingState == volState:
-                points = points + 3
-            if incomingActivities == volActivities:
-                points = points + 3
-            if incomingRace == volRace:
+            if inRace == volRace:
                 points = points + 3
 
             # Creates the dictionary for the incoming student
             # Each key is one of the volunteers and each value is their
             #respective compatability
-            makePair(incomingStudent + 1, volStudent + 1, points, allPairs)
+            makePair(volStudent, points, allPairs)
 
         # Finds the volunteer with the highest compatability
-        # The variable is the name of one of the volunteers in the dictionary
-        bestmatch = max(allPairs.items(), key = operator.itemgetter(1))[0]
+        # The variable is the object of one of the volunteers in the dictionary
+        compatibleVolunteer = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        print(incomingStudents[incomingStudent].getFirstName(), "'s top match is ", bestmatch, " with a total of ", \
-        allPairs[bestmatch], " points! \nNow we have to email: ", \
-        incomingStudents[incomingStudent].getEmail(), sep="")
+        print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \nTheir compatability score is: ", \
+        allPairs[compatibleVolunteer], "\nNow, ", \
+        compatibleVolunteer.getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
+        "'s email is: ", inStudent.getEmail(), ". \n", compatibleVolunteer.getFirstName(), "'s email is: ", \
+        compatibleVolunteer.getEmail(), sep = "")
+
         print('')
 
 #The main function of the whole program
 def main():
     # Creates a list of Student objects
-    incomingStudents = createStudentList2(incomingData)
+
+    incomingStudents = createInStudentList(incomingData)
+    volunteerStudents = createVolStudentList(volunteerData)
+
 
     # finds best match for each student and prints out results
-    findMatches(incomingStudents)
+    findMatches(incomingStudents, volunteerStudents)
 
 main()
 
