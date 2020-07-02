@@ -37,6 +37,9 @@ volunteerData = volwks.get_all_records()
 inStudentList = []
 volStudentList = []
 
+# A dictionary that will have volunteer names as keys and their respective Student object as keys
+volStudentDict = {}
+
 # A function that makes a Student object each time it is called
 def makeStudent(listOfAtt):
     student = Student(listOfAtt)
@@ -54,8 +57,10 @@ def createInStudentList(data):
 def createVolStudentList(data):
     for attributes in data:
         attributes = list(attributes.values())
-        student = makeStudent(attributes)
-        volStudentList.append(student)
+        volStudent = makeStudent(attributes)
+        volStudentList.append(volStudent)
+        volStudentDict[volStudent.getFirstName()] = volStudent
+
     return volStudentList
 
 # Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's name and the value is the compatability between them
@@ -110,14 +115,12 @@ def findMatches(incomingStudents, volunteerStudents):
     for inStudent in incomingStudents:
 
         # Each incoming student gets a dictionary, allPairs, which has keys(volunteer's name) and values(volunteer's compatability with the incoming student
-
         allPairs = {}
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
         # Every incoming student is compared with every volunteer student by iterating through volunteerStudents, a list holding volunteer Student objects
 
         for volStudent in volunteerStudents:
-
             compatibility = getCompatibility(inStudent, volStudent)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
@@ -127,11 +130,15 @@ def findMatches(incomingStudents, volunteerStudents):
         # The variable is a string holding the first name of that volunteer
         compatibleVolunteer = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        # Converts from the volunteer's name to its object
-        # Does this by iterating through volunteerStudents
+        '''
+        # Converts from the volunteer's name to its object by iterating through volunteerStudents and finding the object matching the name
         for volStudent in volunteerStudents:
             if volStudent.getFirstName() == compatibleVolunteer:
                 compatibleVolunteer = volStudent
+        '''
+
+        #uses volStudentDict to get the volunteer Student object by inputting their first name.
+        compatibleVolunteer = volStudentDict[compatibleVolunteer]
 
         print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
         \nTheir compatability score is: ", allPairs[compatibleVolunteer.getFirstName()], "\nNow, ", \
@@ -144,7 +151,6 @@ def findMatches(incomingStudents, volunteerStudents):
 #The main function of the whole program
 def main():
     # Creates two lists of Student objects, one holding incoming students and one holding volunteer students
-
     incomingStudents = createInStudentList(incomingData)
     volunteerStudents = createVolStudentList(volunteerData)
 
