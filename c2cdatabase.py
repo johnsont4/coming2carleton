@@ -7,7 +7,6 @@ from student import Student
 
 #Needed for dictionary commands
 import operator
-import time
 
 # These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
@@ -53,7 +52,6 @@ def createInStudentList(data):
         inStudentList.append(student)
 
     return inStudentList
-
 
 # This function creates all the volunteer Students objects and adds them to volStudentList
 # This function creates all the volunteer Students objects and adds each key-value pair to the dictionary.
@@ -103,12 +101,18 @@ def getCompatibility(inStudent, volStudent):
     if inState == volState:
         points = points + 2
 
-    ###points = points + inStudent.compareStudy(volStudent)
-
     if inRace == volRace:
         points = points + 3
 
     return points
+
+#This function sends emails to the matches
+def sendEmails():
+    pass
+
+#This function enters key data to a spreadsheet
+def enterData():
+    pass
 
 # Finds each incoming student's best match by using the makePair() function above for every possible incomingStudent and volStudent combination and prints out the results
 def findMatches(incomingStudents, volunteerStudents):
@@ -135,6 +139,10 @@ def findMatches(incomingStudents, volunteerStudents):
         #uses volStudentDict to get the volunteer Student object by inputting their first name + their last  name.
         compatibleVolunteer = volStudentDict[compatibleVolunteer]
 
+        sendEmails()
+
+        enterData()
+
         print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
         \nTheir compatability score is: ", allPairs[compatibleVolunteer.getFirstName() + compatibleVolunteer.getLastName()], "\nNow, ", \
         compatibleVolunteer.getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
@@ -144,6 +152,9 @@ def findMatches(incomingStudents, volunteerStudents):
         print('')
 
 #The main function of the whole program
+#Basically, the main function creates 2 lists: one for incoming and one for volunteer students
+#Then, it uses the findMatches function to compare the two lists and find each incoming student's
+#most compatible mentor
 def main():
     # Creates two lists of Student objects, one holding incoming students and one holding volunteer students
     incomingStudents = createInStudentList(incomingData)
