@@ -33,8 +33,8 @@ volunteerData = volwks.get_all_records()
 
 #############################################################################
 
-# A list that will hold incoming students
-inStudentList = []
+# A dictionary that will have incoming students' names as keys and their respective Student object as keys
+inStudentDict = {}
 
 # A dictionary that will have volunteer names as keys and their respective Student object as keys
 volStudentDict = {}
@@ -44,15 +44,14 @@ def makeStudent(listOfAtt):
     student = Student(listOfAtt)
     return student
 
-# This function creates all the incoming Student objects and adds them to inStudentList
-def createInStudentList(data):
+# This function creates all the incoming Student objects and adds them to inStudentDict
+def createInStudentDict(data):
     for attributes in data:
         attributes = list(attributes.values())
-        student = makeStudent(attributes)
-        inStudentList.append(student)
+        inStudent = makeStudent(attributes)
+        inStudentDict[inStudent.getFirstName() + inStudent.getLastName()] = inStudent
 
-    return inStudentList
-
+    return inStudentDict
 
 # This function creates all the volunteer Student objects and adds each key-value pair to the dictionary.
 def createVolStudentDict(data):
@@ -114,11 +113,12 @@ def sendEmails():
 def enterData():
     pass
 
-# Finds each incoming student's best match by using the makePair() function above for every possible incomingStudent and volStudent combination and prints out the results
+# Finds each incoming student's best match by using the makePair() function above for every possible incomingStudent and volStudent combination and puts into a dictionary
 def findMatches(incomingStudents, volunteerStudents):
+    matchesDict = {}
 
-    # Iterating through incomingStudents, a list holding incoming Student objects
-    for inStudent in incomingStudents:
+    # Iterating through incomingStudents, a dictholding incoming Student objects
+    for inStudent in incomingStudents.values():
 
         # Each incoming student gets a dictionary, allPairs, which has keys(volunteer's name) and values(volunteer's compatability with the incoming student
         allPairs = {}
@@ -143,6 +143,11 @@ def findMatches(incomingStudents, volunteerStudents):
 
         enterData()
 
+        # This adds a key(incoming student's first + last name) and a value(their compatible volunteer) to matchesDict.
+        # After the outer loop is done running, this will contain the matches for all incoming students.
+        matchesDict[inStudent.getFirstName() + inStudent.getLastName()] = compatibleVolunteer
+
+        '''
         print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
         \nTheir compatability score is: ", allPairs[compatibleVolunteer.getFirstName() + compatibleVolunteer.getLastName()], "\nNow, ", \
         compatibleVolunteer.getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
@@ -150,18 +155,22 @@ def findMatches(incomingStudents, volunteerStudents):
         compatibleVolunteer.getEmail(), sep = "")
 
         print('')
+        '''
+
+    return matchesDict
 
 #The main function of the whole program
-#Basically, the main function creates 2 lists: one for incoming and one for volunteer students
+#Basically, the main function creates 2 dicts: one for incoming and one for volunteer students
 #Then, it uses the findMatches function to compare the two lists and find each incoming student's
 #most compatible mentor
 def main():
     # Creates two lists of Student objects, one holding incoming students and one holding volunteer students
-    incomingStudents = createInStudentList(incomingData)
+    incomingStudents = createInStudentDict(incomingData)
     volunteerStudents = createVolStudentDict(volunteerData)
 
-    # finds best match for each incoming student and prints out results
-    findMatches(incomingStudents, volunteerStudents)
+    # finds best match for each incoming student and stores it in a dictionary with keys(incoming student's combined first + last name)
+    # and values(their compatible volunteer)
+    matches = findMatches(incomingStudents, volunteerStudents)
 
 main()
 
