@@ -1,3 +1,1 @@
-# readme
-
-# coming2carleto
+Coming2Carleton is a program that matches incoming freshman with current volunteer students at Carleton College in the summer before freshman arrive, bridging the gap between enrollment and New Student Week. The matching process is based off of a series of attributes, provided by both incoming and current volunteer students in a Google Form.
