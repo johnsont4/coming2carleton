@@ -109,8 +109,8 @@ def getCompatibility(inStudent, volStudent):
 
     return points
 
-#This function sends emails to all the incoming students and volunteers.
-
+#This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
+# so that we can input key values(combined first and last name) and get the corresponding Student objects(that have info we need such as their email address).
 def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
     # to email all the volunteers with a desired message
@@ -173,10 +173,11 @@ def findMatches(incomingStudents, volunteerStudents):
         # The variable is a string holding the combined first name + last name of that volunteer
         compatibleVolunteer = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
-        # This adds a key(incoming student's first + last name) and a value(their compatible volunteer) to compatibleMatchesDict.
-        # After the outer loop is done running, this will contain all compatible matches.
+        # This adds a key(incoming student's combined first + last name) and a value(their compatible volunteer's combined first and last name)
+        #to compatibleMatchesDict. After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[inStudent.getFirstName() + inStudent.getLastName()] = compatibleVolunteer
 
+        # commented out print statement for testing purposes
         '''
         print(inStudent.getFirstName(), " is compatible with ", volunteerStudents[compatibleVolunteer].getFirstName(), ". \
         \nTheir compatability score is: ", possiblePairs[compatibleVolunteer], "\nNow, ", \
@@ -203,6 +204,7 @@ def main():
     # and values(volunteer student's combined first + last name)
     matches = findMatches(incomingStudents, volunteerStudents)
 
+    # sends emails to all students. Commented out for now
     #sendEmails(matches, incomingStudents, volunteerStudents)
 
     enterData()
