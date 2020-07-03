@@ -8,6 +8,10 @@ from student import Student
 #Needed for dictionary commands
 import operator
 
+# these are used to send emails
+import smtplib
+from email.message import EmailMessage
+
 # These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
@@ -105,15 +109,46 @@ def getCompatibility(inStudent, volStudent):
 
     return points
 
-#This function sends emails to the matches. Not yet implemented.
-def sendEmails():
-    pass
+#This function sends emails to all the incoming students and volunteers.
+
+def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
+
+    # to email all the volunteers with a desired message
+    for volStudent in matchesDict.values():
+        toAddress = volunteerStudentDict[volStudent].getEmail()
+
+        msg = EmailMessage()
+        msg['Subject'] = "Information for C2C 2021 :)"
+        msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
+        msg['To'] = toAddress
+        msg.set_content("Thank you for signing up to be a mentor for this year's Coming2Carleton program blah blah blah here's some info")
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
+            smtp.send_message(msg)
+            smtp.quit()
+
+    # to email all incoming students with a desired message
+    for incomingStudent in matchesDict:
+        toAddress = incomingStudentDict[incomingStudent].getEmail()
+
+        msg = EmailMessage()
+        msg['Subject'] = "Information for C2C 2021 :)"
+        msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
+        msg['To'] = toAddress
+        msg.set_content("Welcome to Carleton! Here's information about your mentor blah blah blah")
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
+            smtp.send_message(msg)
+            smtp.quit()
 
 #This function enters key data to a spreadsheet. Not yet implemented.
 def enterData():
     pass
 
-# Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict.
+# Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's combined first + last name)
+# and values = volunteer student's combined first + last name)
 def findMatches(incomingStudents, volunteerStudents):
     compatibleMatchesDict = {}
 
@@ -128,6 +163,7 @@ def findMatches(incomingStudents, volunteerStudents):
         # Every incoming student is compared with every volunteer student by iterating through the values of volunteerStudents,
         # a dictionary with keys = combined first and last names, values = their respective Student object
         for volStudent in volunteerStudents.values():
+
             compatibility = getCompatibility(inStudent, volStudent)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
@@ -137,23 +173,16 @@ def findMatches(incomingStudents, volunteerStudents):
         # The variable is a string holding the combined first name + last name of that volunteer
         compatibleVolunteer = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
-        #uses volStudentDict to get the volunteer Student object by inputting his/her combined first name + last name.
-        compatibleVolunteer = volStudentDict[compatibleVolunteer]
-
-        sendEmails()
-
-        enterData()
-
         # This adds a key(incoming student's first + last name) and a value(their compatible volunteer) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[inStudent.getFirstName() + inStudent.getLastName()] = compatibleVolunteer
 
         '''
-        print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
-        \nTheir compatability score is: ", possiblePairs[compatibleVolunteer.getFirstName() + compatibleVolunteer.getLastName()], "\nNow, ", \
-        compatibleVolunteer.getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
-        "'s email is: ", inStudent.getEmail(), ". \n", compatibleVolunteer.getFirstName(), "'s email is: ", \
-        compatibleVolunteer.getEmail(), sep = "")
+        print(inStudent.getFirstName(), " is compatible with ", volunteerStudents[compatibleVolunteer].getFirstName(), ". \
+        \nTheir compatability score is: ", possiblePairs[compatibleVolunteer], "\nNow, ", \
+        volunteerStudents[compatibleVolunteer].getFirstName(), " has to email ", inStudent.getFirstName(), ". \n", inStudent.getFirstName(), \
+        "'s email is: ", inStudent.getEmail(), ". \n", volunteerStudents[compatibleVolunteer].getFirstName(), "'s email is: ", \
+        volunteerStudents[compatibleVolunteer].getEmail(), sep = "")
 
         print('')
         '''
@@ -163,7 +192,7 @@ def findMatches(incomingStudents, volunteerStudents):
 # The main function of the whole program
 # Basically, the main function creates 2 dicts: one for incoming and one for volunteer students
 # Then, it uses the findMatches function to compare the two lists and find each incoming student's
-#most compatible mentor and adds into a dictionary
+# most compatible mentor and adds into a dictionary
 def main():
     # Creates two dictionaries: one that will have incoming students' names as keys and their respective Student object as values
     # and one that will have volunteer names as keys and their respective Student object as values
@@ -171,8 +200,12 @@ def main():
     volunteerStudents = createVolStudentDict(volunteerData)
 
     # finds best match for each incoming student and stores it in a dictionary with keys(incoming student's combined first + last name)
-    # and values(their compatible volunteer)
+    # and values(volunteer student's combined first + last name)
     matches = findMatches(incomingStudents, volunteerStudents)
+
+    #sendEmails(matches, incomingStudents, volunteerStudents)
+
+    enterData()
 
 main()
 
