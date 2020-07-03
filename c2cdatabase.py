@@ -55,10 +55,8 @@ def createInStudentList(data):
     return inStudentList
 
 
-# This function creates all the volunteer Students objects and adds them to volStudentList
-# This function creates all the volunteer Students objects and adds each key-value pair to the dictionary.
-
-def createVolStudentList(data):
+# This function creates all the volunteer Student objects and adds each key-value pair to the dictionary.
+def createVolStudentDict(data):
     for attributes in data:
         attributes = list(attributes.values())
         volStudent = makeStudent(attributes)
@@ -95,6 +93,7 @@ def getCompatibility(inStudent, volStudent):
         points = points + 3
 
     points += 5 * inStudent.compareAttribute(volStudent, "study")
+
     points += 2 * inStudent.compareAttribute(volStudent, "activities")
 
     if inDomOrInt == volDomOrInt:
@@ -102,8 +101,6 @@ def getCompatibility(inStudent, volStudent):
 
     if inState == volState:
         points = points + 2
-
-    ###points = points + inStudent.compareStudy(volStudent)
 
     if inRace == volRace:
         points = points + 3
@@ -121,7 +118,7 @@ def findMatches(incomingStudents, volunteerStudents):
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
         # Every incoming student is compared with every volunteer student by iterating through the values of volunteerStudents,
-        # a dictionary with keys = their first and last names, values = their respective Student obejct
+        # a dictionary with keys = combined first and last names, values = their respective Student object
         for volStudent in volunteerStudents.values():
             compatibility = getCompatibility(inStudent, volStudent)
 
@@ -129,10 +126,10 @@ def findMatches(incomingStudents, volunteerStudents):
             makePair(volStudent, compatibility, allPairs)
 
         # Finds the volunteer with the highest compatability
-        # The variable is a string holding the first name of that volunteer
+        # The variable is a string holding the combined first name + last name of that volunteer
         compatibleVolunteer = max(allPairs.items(), key = operator.itemgetter(1))[0]
 
-        #uses volStudentDict to get the volunteer Student object by inputting their first name + their last  name.
+        #uses volStudentDict to get the volunteer Student object by inputting his/her combined first name + last name.
         compatibleVolunteer = volStudentDict[compatibleVolunteer]
 
         print(inStudent.getFirstName(), " is compatible with ", compatibleVolunteer.getFirstName(), ". \
@@ -147,7 +144,7 @@ def findMatches(incomingStudents, volunteerStudents):
 def main():
     # Creates two lists of Student objects, one holding incoming students and one holding volunteer students
     incomingStudents = createInStudentList(incomingData)
-    volunteerStudents = createVolStudentList(volunteerData)
+    volunteerStudents = createVolStudentDict(volunteerData)
 
     # finds best match for each incoming student and prints out results
     findMatches(incomingStudents, volunteerStudents)
