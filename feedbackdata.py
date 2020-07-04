@@ -1,0 +1,1 @@
+# feedbackdata.py stores feedback from participants on how the match worked out.
