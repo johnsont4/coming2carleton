@@ -107,7 +107,7 @@ def getCompatibility(inStudent, volStudent):
         points = points + 3
 
     return points
-
+'''
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(combined first and last name) and get the corresponding Student objects(so we can get info like their email addresses).
 def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
@@ -148,7 +148,7 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
             smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
             smtp.send_message(msg)
             smtp.quit()
-
+'''
 #This function enters key data to a spreadsheet. Not yet implemented.
 def enterData():
     pass
