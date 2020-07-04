@@ -113,35 +113,43 @@ def getCompatibility(inStudent, volStudent):
 # so that we can input key values(combined first and last name) and get the corresponding Student objects(that have info we need such as their email address).
 def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
-    # to email all the volunteers with a desired message
-    for volStudent in matchesDict.values():
-        toAddress = volunteerStudentDict[volStudent].getEmail()
+    # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
+    for incomingStudentName in matchesDict:
 
+        # get the Student objects associated with this pairing
+        incomingStudent = incomingStudentDict[incomingStudentName]
+        volStudent = volunteerStudentDict[matchesDict[incomingStudentName]]
+
+        # gets both email addresses
+        inStudentAddress = incomingStudent.getEmail()
+        volStudentAddress = volStudent.getEmail()
+
+    # email incoming students with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"
         msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
-        msg['To'] = toAddress
-        msg.set_content("Thank you for signing up to be a mentor for this year's Coming2Carleton program blah blah blah here's some info")
+        msg['To'] = inStudentAddress
+        msg.set_content("Welcome to Carleton! . . . your mentor's name is ", volStudent.getFirstName(), " ", \
+        volStudent.getLastName(), "and their email is: ", volStudent.getEmail(), "more info blah blah blah")
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
             smtp.send_message(msg)
             smtp.quit()
 
-    # to email all incoming students with a desired message
-    for incomingStudent in matchesDict:
-        toAddress = incomingStudentDict[incomingStudent].getEmail()
-
+    # email the volunteers with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"
         msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
-        msg['To'] = toAddress
-        msg.set_content("Welcome to Carleton! Here's information about your mentor blah blah blah")
+        msg['To'] = volStudentAddress
+        msg.set_content("Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is ", \
+        incomingStudent.getFirstName(), " ",  incomingStudent.getLastName(), "and their email is: ", incomingStudent.getEmail(), "more info blah blah blah")
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
             smtp.send_message(msg)
             smtp.quit()
+
 
 #This function enters key data to a spreadsheet. Not yet implemented.
 def enterData():
