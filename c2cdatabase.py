@@ -43,12 +43,12 @@ inStudentDict = {}
 # A dictionary that will have volunteer names as keys and their respective Student object as values
 volStudentDict = {}
 
-# A function that makes a Student object each time it is called
+# A function that makes a Student object using a list of attributes each time it is called
 def makeStudent(listOfAtt):
     student = Student(listOfAtt)
     return student
 
-# This function creates all the incoming Student objects and adds each key-value pair to the dictionary.
+# This function creates all the incoming Student objects and adds each key-value pair to inStudentDict dictionary.
 def createInStudentDict(data):
     for attributes in data:
         attributes = list(attributes.values())
@@ -57,7 +57,7 @@ def createInStudentDict(data):
 
     return inStudentDict
 
-# This function creates all the volunteer Student objects and adds each key-value pair to the dictionary.
+# This function creates all the volunteer Student objects and adds each key-value pair to the volStudentDict dictionary.
 def createVolStudentDict(data):
     for attributes in data:
         attributes = list(attributes.values())
@@ -66,12 +66,12 @@ def createVolStudentDict(data):
 
     return volStudentDict
 
-# Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's name and the value is the compatability between them
+# Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's name and the value is their compatability
 def makePair(volStudent, points, possiblePairs):
     possiblePairs[volStudent.getFirstName() + volStudent.getLastName()] = points
     return possiblePairs
 
-# Uses a series of if-statements and a couple methods to determine a number representing the compatibility between two students.
+# Uses a series of if-statements and a couple methods to return a number representing the compatibility between two students.
 def getCompatibility(inStudent, volStudent):
 
     inPronouns = inStudent.getPronouns()
@@ -90,7 +90,6 @@ def getCompatibility(inStudent, volStudent):
 
     points = 0
 
-    # the following series of if-statements increment the points of a pairing by checking similarities in answers
     if inPronouns == volPronouns:
         points = points + 3
 
@@ -110,7 +109,7 @@ def getCompatibility(inStudent, volStudent):
     return points
 
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
-# so that we can input key values(combined first and last name) and get the corresponding Student objects(that have info we need such as their email address).
+# so that we can input key values(combined first and last name) and get the corresponding Student objects(so we can get info like their email addresses).
 def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
@@ -129,8 +128,8 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         msg['Subject'] = "Information for C2C 2021 :)"
         msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
         msg['To'] = inStudentAddress
-        msg.set_content("Welcome to Carleton! . . . your mentor's name is ", volStudent.getFirstName(), " ", \
-        volStudent.getLastName(), "and their email is: ", volStudent.getEmail(), "more info blah blah blah")
+        msg.set_content("Welcome to Carleton! . . . your mentor's name is " + volStudent.getFirstName() + " " \
+        volStudent.getLastName() + " and their email is: " + volStudent.getEmail() + " and here's more info blah blah blah")
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
@@ -142,14 +141,13 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         msg['Subject'] = "Information for C2C 2021 :)"
         msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
         msg['To'] = volStudentAddress
-        msg.set_content("Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is ", \
-        incomingStudent.getFirstName(), " ",  incomingStudent.getLastName(), "and their email is: ", incomingStudent.getEmail(), "more info blah blah blah")
+        msg.set_content("Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is " + \
+        incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + " and their email is: " + incomingStudent.getEmail() + " and here's more info ")
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
             smtp.send_message(msg)
             smtp.quit()
-
 
 #This function enters key data to a spreadsheet. Not yet implemented.
 def enterData():
@@ -178,7 +176,7 @@ def findMatches(incomingStudents, volunteerStudents):
             makePair(volStudent, compatibility, possiblePairs)
 
         # Finds the volunteer with the highest compatability
-        # The variable is a string holding the combined first name + last name of that volunteer
+        # The variable is a string that cholds the combined first name + last name of the compatible volunteer student
         compatibleVolunteer = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
         # This adds a key(incoming student's combined first + last name) and a value(their compatible volunteer's combined first and last name)
@@ -195,13 +193,12 @@ def findMatches(incomingStudents, volunteerStudents):
 
         print('')
         '''
-
     return compatibleMatchesDict
 
 # The main function of the whole program
 # Basically, the main function creates 2 dicts: one for incoming and one for volunteer students
 # Then, it uses the findMatches function to compare the two lists and find each incoming student's
-# most compatible mentor and adds into a dictionary
+# most compatible mentor and adds into a dictionary that holds the compatible matches.
 def main():
     # Creates two dictionaries: one that will have incoming students' names as keys and their respective Student object as values
     # and one that will have volunteer names as keys and their respective Student object as values
@@ -213,9 +210,10 @@ def main():
     matches = findMatches(incomingStudents, volunteerStudents)
 
     # sends emails to all students. Commented out for now
-    #sendEmails(matches, incomingStudents, volunteerStudents)
+    # sendEmails(matches, incomingStudents, volunteerStudents)
 
-    enterData()
+    # enters data into a spreadsheet(?) so we can analyze it. Not yet implemented, so commented out for now.
+    # enterData()
 
 main()
 
