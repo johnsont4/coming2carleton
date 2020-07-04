@@ -12,6 +12,7 @@ import operator
 import smtplib
 from email.message import EmailMessage
 
+
 # These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
@@ -30,11 +31,10 @@ inwks = gc.open('GoogleF').sheet1
 # This is all the data for volunteer students
 volwks = gc.open("GoogleF").get_worksheet(1)
 
-# These are dictionaries that hold the variables for each group of students
+# These are lists of dictionaries that hold the variables for each group of students
 incomingData = inwks.get_all_records()
 
 volunteerData = volwks.get_all_records()
-
 #############################################################################
 
 # A dictionary that will have incoming students' names as keys and their respective Student object as values
@@ -110,7 +110,7 @@ def getCompatibility(inStudent, volStudent):
 
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(combined first and last name) and get the corresponding Student objects(so we can get info like their email addresses).
-def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
+"""def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
     for incomingStudentName in matchesDict:
