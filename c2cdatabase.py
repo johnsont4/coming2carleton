@@ -110,7 +110,7 @@ def getCompatibility(inStudent, volStudent):
 '''
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(combined first and last name) and get the corresponding Student objects(so we can get info like their email addresses).
-def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
+"""def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
     for incomingStudentName in matchesDict:
@@ -147,8 +147,8 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
             smtp.send_message(msg)
-            smtp.quit()
-'''
+            smtp.quit()"""
+
 #This function enters key data to a spreadsheet. Not yet implemented.
 def enterData():
     pass
@@ -182,9 +182,9 @@ def findMatches(incomingStudents, volunteerStudents):
         #uses volStudentDict to get the volunteer Student object by inputting his/her combined first name + last name.
         compatibleVolunteer = volStudentDict[compatibleVolunteerName]
 
-        sendEmails()
 
-        enterData()
+
+
 
         # This adds a key(incoming student's first + last name) and a value(their compatible volunteer) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
