@@ -176,11 +176,18 @@ def findMatches(incomingStudents, volunteerStudents):
             makePair(volStudent, compatibility, possiblePairs)
 
         # Finds the volunteer with the highest compatability
-        # The variable is a string that cholds the combined first name + last name of the compatible volunteer student
-        compatibleVolunteer = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+        # The variable is a string holding the combined first name + last name of that volunteer
+        compatibleVolunteerName = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
-        # This adds a key(incoming student's combined first + last name) and a value(their compatible volunteer's combined first and last name)
-        #to compatibleMatchesDict. After the outer loop is done running, this will contain all compatible matches.
+        #uses volStudentDict to get the volunteer Student object by inputting his/her combined first name + last name.
+        compatibleVolunteer = volStudentDict[compatibleVolunteerName]
+
+        sendEmails()
+
+        enterData()
+
+        # This adds a key(incoming student's first + last name) and a value(their compatible volunteer) to compatibleMatchesDict.
+        # After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[inStudent.getFirstName() + inStudent.getLastName()] = compatibleVolunteer
 
         # commented out print statement for testing purposes
