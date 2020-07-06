@@ -15,6 +15,9 @@ from email.message import EmailMessage
 # used to force program to wait before sending emails
 import time
 
+# used to make sure emails don't get cut (each email is unique)
+import random
+
 # These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
@@ -127,22 +130,26 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         incomingStudent = incomingStudentDict[incomingStudentEmail]
         volStudent = volunteerStudentDict[volStudentAddress]
 
-        menteeMsg = "Welcome to Carleton! We are so glad that you've chosen Carleton to be your next home. " \
+        menteeMsg = "#REF " + str(random.randint(1000,9999))\
+        + "\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home. " \
         + "We have finished the matchmaking process for this cycle, and below is information about the student we have paired up with you and ways to contact them! \n\n" \
         + "Your mentor's name: " + volStudent.getFirstName() + " " + volStudent.getLastName() + "\n" \
         + "Email: " + volStudentAddress + "\n" \
         + "Pronouns: " + volStudent.getPronouns() + "\n" \
         + "Phone number: " + "we have to figure this out \n\n" \
-        + "Have fun with this! Again, we would like to give you our most heartfelt welcome to Carleton and we hope to see you around on campus!"
+        + "Have fun with this! Again, we would like to give you our most heartfelt welcome to Carleton and we hope to see you around on campus!\n\n"\
+        + "#REF " + str(random.randint(1000,9999))
 
-        mentorMsg = "Thank you for signing up to be a mentor for this year's Coming2Carleton program! " \
+        mentorMsg = "#REF " + str(random.randint(1000,9999))\
+        + "\nThank you for signing up to be a mentor for this year's Coming2Carleton program! " \
         + "We have finished the matchmaking process for this cycle, and below is information about the student we have paired up with you and ways to contact them! \n\n" \
         + "Your mentee's name: " + incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + "\n" \
         + "Email: " + incomingStudentEmail + "\n" \
         + "Pronouns: " + incomingStudent.getPronouns() + "\n" \
         + "Phone number: " + "we have to figure this out \n\n" \
         + "We have attached a pdf that contain some basic guidelines and tips about interacting with your mentee. They're pretty basic and meant to " \
-        + "improve the experience for both of you. Again, thank you for participating and remembe to have fun with this!"
+        + "improve the experience for both of you. Again, thank you for participating and remembe to have fun with this! \n\n"\
+        + "#REF " + str(random.randint(1000,9999))
 
     # email incoming students with a desired message
         msg = EmailMessage()
