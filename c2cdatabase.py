@@ -112,9 +112,11 @@ def getCompatibility(inStudent, volStudent):
 # so that we can input key values(combined first and last name) and get the corresponding Student objects(so we can get info like their email addresses).
 def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
+    # This makes one of us type in the password so the password isn't in the script
+    password = input("The password for coming2carleton@gmail.com: ")
+
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
     for incomingStudentName in matchesDict:
-    
 
         # get the Student objects associated with this pairing
         incomingStudent = incomingStudentDict[incomingStudentName]
@@ -124,34 +126,34 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         inStudentAddress = incomingStudent.getEmail()
         volStudentAddress = volStudent.getEmail()
 
-        txt = "Welcome to Carleton! . . . your mentor's name is " + volStudent.getFirstName() + " " +\
+        mentorMsg = "Welcome to Carleton! . . . your mentor's name is " + volStudent.getFirstName() + " " +\
         volStudent.getLastName() + " and their email is: " + volStudent.getEmail() + " and here's more info blah blah blah"
 
-        txt2 = "Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is " + \
+        menteeMsg = "Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is " + \
         incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + " and their email is: " + incomingStudent.getEmail() + " and here's more info "
-
 
     # email incoming students with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = inStudentAddress
-        msg.set_content(txt)
+        msg.set_content(mentorMsg)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login("coming2carleton@gmail.com", "V1k1ngs2")
+            smtp.login("coming2carleton@gmail.com", password)
             smtp.send_message(msg)
-            smtp.quit()
 
+        # a line so that the program waits 2 seconds between sending email so hopefully Google doesn't flag as spam
+        time.sleep(2)
     # email the volunteers with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = volStudentAddress
-        msg.set_content(txt2)
+        msg.set_content(menteeMsg)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login("coming2carleton@gmail.com", "V1k1ngs2")
+            smtp.login("coming2carleton@gmail.com", password)
             smtp.send_message(msg)
             smtp.quit()
 
