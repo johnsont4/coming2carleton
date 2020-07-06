@@ -12,6 +12,9 @@ import operator
 import smtplib
 from email.message import EmailMessage
 
+# used to force program to wait before sending emails
+import time
+
 
 # These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
@@ -218,7 +221,7 @@ def main():
     # and values(volunteer student's combined first + last name)
     matches = findMatches(incomingStudents, volunteerStudents)
 
-    # sends emails to all students. Commented out for now
+    # sends emails to all mentors and mentees
     sendEmails(matches, incomingStudents, volunteerStudents)
 
     # enters data into a spreadsheet(?) so we can analyze it. Not yet implemented, so commented out for now.
