@@ -78,12 +78,12 @@ def getCompatibility(inStudent, volStudent):
 
     inPronouns = inStudent.getPronouns()
     inDomOrInt = inStudent.getDomOrInt()
-    inHomeland = inStudent.getHomeland()
+    inHomeland = inStudent.getHomeland().lower()
     inRace = inStudent.getRace()
 
     volPronouns = volStudent.getPronouns()
     volDomOrInt = volStudent.getDomOrInt()
-    volHomeland = volStudent.getHomeland()
+    volHomeland = volStudent.getHomeland().lower()
     volRace = volStudent.getRace()
 
     points = 0
