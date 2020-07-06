@@ -110,10 +110,11 @@ def getCompatibility(inStudent, volStudent):
 
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(combined first and last name) and get the corresponding Student objects(so we can get info like their email addresses).
-"""def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
+def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
 
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
     for incomingStudentName in matchesDict:
+    
 
         # get the Student objects associated with this pairing
         incomingStudent = incomingStudentDict[incomingStudentName]
@@ -123,31 +124,36 @@ def getCompatibility(inStudent, volStudent):
         inStudentAddress = incomingStudent.getEmail()
         volStudentAddress = volStudent.getEmail()
 
+        txt = "Welcome to Carleton! . . . your mentor's name is " + volStudent.getFirstName() + " " +\
+        volStudent.getLastName() + " and their email is: " + volStudent.getEmail() + " and here's more info blah blah blah"
+
+        txt2 = "Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is " + \
+        incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + " and their email is: " + incomingStudent.getEmail() + " and here's more info "
+
+
     # email incoming students with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"
-        msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
+        msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = inStudentAddress
-        msg.set_content("Welcome to Carleton! . . . your mentor's name is " + volStudent.getFirstName() + " " \
-        volStudent.getLastName() + " and their email is: " + volStudent.getEmail() + " and here's more info blah blah blah")
+        msg.set_content(txt)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
+            smtp.login("coming2carleton@gmail.com", "V1k1ngs2")
             smtp.send_message(msg)
             smtp.quit()
 
     # email the volunteers with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"
-        msg['From'] = "emailAddressWeHaveYetToMake@gmail.com"
+        msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = volStudentAddress
-        msg.set_content("Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is " + \
-        incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + " and their email is: " + incomingStudent.getEmail() + " and here's more info ")
+        msg.set_content(txt2)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login("emailAddressWeHaveYetToMake@gmail.com", "password")
+            smtp.login("coming2carleton@gmail.com", "V1k1ngs2")
             smtp.send_message(msg)
-            smtp.quit()"""
+            smtp.quit()
 
 #This function enters key data to a spreadsheet. Not yet implemented.
 def enterData():
@@ -179,12 +185,9 @@ def findMatches(incomingStudents, volunteerStudents):
         # The variable is a string holding the combined first name + last name of that volunteer
         compatibleVolunteerName = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
-        #uses volStudentDict to get the volunteer Student object by inputting his/her combined first name + last name.
-        compatibleVolunteer = volStudentDict[compatibleVolunteerName]
-
         # This adds a key(incoming student's first + last name) and a value(their compatible volunteer) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
-        compatibleMatchesDict[inStudent.getFirstName() + inStudent.getLastName()] = compatibleVolunteer
+        compatibleMatchesDict[inStudent.getFirstName() + inStudent.getLastName()] = compatibleVolunteerName
 
         # commented out print statement for testing purposes
         '''
@@ -214,7 +217,7 @@ def main():
     matches = findMatches(incomingStudents, volunteerStudents)
 
     # sends emails to all students. Commented out for now
-    # sendEmails(matches, incomingStudents, volunteerStudents)
+    sendEmails(matches, incomingStudents, volunteerStudents)
 
     # enters data into a spreadsheet(?) so we can analyze it. Not yet implemented, so commented out for now.
     # enterData()
