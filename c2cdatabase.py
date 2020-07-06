@@ -15,7 +15,6 @@ from email.message import EmailMessage
 # used to force program to wait before sending emails
 import time
 
-
 # These are the websites that need to be accessed to get incomingData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
 'https://www.googleapis.com/auth/drive']
@@ -74,40 +73,40 @@ def makePair(volStudent, points, possiblePairs):
     possiblePairs[volStudent.getEmail()] = points
     return possiblePairs
 
-# Uses a series of if-statements and a couple methods to return a number representing the compatibility between two students.
+# Uses a series of if-Homelandments and a couple methods to return a number representing the compatibility between two students.
 def getCompatibility(inStudent, volStudent):
 
     inPronouns = inStudent.getPronouns()
-    inStudy = inStudent.getStudy()
     inDomOrInt = inStudent.getDomOrInt()
-    inState = inStudent.getState()
-    inActivities = inStudent.getActivities()
+    inHomeland = inStudent.getHomeland()
     inRace = inStudent.getRace()
 
     volPronouns = volStudent.getPronouns()
-    volStudy = volStudent.getStudy()
     volDomOrInt = volStudent.getDomOrInt()
-    volState = volStudent.getState()
-    volActivities = volStudent.getActivities()
+    volHomeland = volStudent.getHomeland()
     volRace = volStudent.getRace()
 
     points = 0
 
     if inPronouns == volPronouns:
-        points = points + 3
+        points += 3
 
     points += 5 * inStudent.compareAttribute(volStudent, "study")
 
     points += 2 * inStudent.compareAttribute(volStudent, "activities")
 
-    if inDomOrInt == volDomOrInt:
-        points = points + 3
+    if inDomOrInt == volDomOrInt == "Domestic":
+        points += 3
+        if inHomeland == volHomeland:
+            points += 3
 
-    if inState == volState:
-        points = points + 2
+    if inDomOrInt == volDomOrInt == "International":
+        points += 5
+        if inHomeland == volHomeland:
+            points += 3
 
     if inRace == volRace:
-        points = points + 3
+        points += 3
 
     return points
 
@@ -128,11 +127,22 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         incomingStudent = incomingStudentDict[incomingStudentEmail]
         volStudent = volunteerStudentDict[volStudentAddress]
 
-        menteeMsg = "Welcome to Carleton! . . . your mentor's name is " + volStudent.getFirstName() + " " +\
-        volStudent.getLastName() + " and their email is: " + volStudentAddress + " and here's more info blah blah blah"
+        menteeMsg = "Welcome to Carleton! We are so glad that you've chosen Carleton to be your next home. " \
+        + "We have finished the matchmaking process for this cycle, and below is information about the student we have paired up with you and ways to contact them! \n\n" \
+        + "Your mentor's name: " + volStudent.getFirstName() + " " + volStudent.getLastName() + "\n" \
+        + "Email: " + volStudentAddress + "\n" \
+        + "Pronouns: " + volStudent.getPronouns() + "\n" \
+        + "Phone number: " + "we have to figure this out \n\n" \
+        + "Have fun with this! Again, we would like to give you our most heartfelt welcome to Carleton and we hope to see you around on campus!"
 
-        mentorMsg = "Thank you for signing up to be a mentor for this year's Coming2Carleton program . . . your mentee's name is " + \
-        incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + " and their email is: " + incomingStudentEmail + " and here's more info "
+        mentorMsg = "Thank you for signing up to be a mentor for this year's Coming2Carleton program! " \
+        + "We have finished the matchmaking process for this cycle, and below is information about the student we have paired up with you and ways to contact them! \n\n" \
+        + "Your mentee's name: " + incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + "\n" \
+        + "Email: " + incomingStudentEmail + "\n" \
+        + "Pronouns: " + incomingStudent.getPronouns() + "\n" \
+        + "Phone number: " + "we have to figure this out \n\n" \
+        + "We have attached a pdf that contain some basic guidelines and tips about interacting with your mentee. They're pretty basic and meant to " \
+        + "improve the experience for both of you. Again, thank you for participating and remembe to have fun with this!"
 
     # email incoming students with a desired message
         msg = EmailMessage()
@@ -146,7 +156,7 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
             smtp.send_message(msg)
 
         # a line so that the program waits 2 seconds between sending email so hopefully Google doesn't flag as spam
-        time.sleep(2)
+        time.sleep(1)
     # email the volunteers with a desired message
         msg = EmailMessage()
         msg['Subject'] = "Information for C2C 2021 :)"

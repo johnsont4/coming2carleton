@@ -6,7 +6,7 @@ class Student():
         self.pronouns = listOfAtt[3]
         self.study = listOfAtt[4]
         self.domOrInt = listOfAtt[5]
-        self.state = listOfAtt[6]
+        self.homeland = listOfAtt[6]
         self.activities = listOfAtt[7]
         self.race = listOfAtt[8]
         self.email = listOfAtt[9]
@@ -29,8 +29,8 @@ class Student():
     def getDomOrInt(self):
         return self.domOrInt
 
-    def getState(self):
-        return self.state
+    def getHomeland(self):
+        return self.homeland
 
     def getActivities(self):
         return self.activities
