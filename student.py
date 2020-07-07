@@ -65,3 +65,12 @@ class Student():
         numIntersections = len(list(intersection))
 
         return numIntersections
+
+class Mentee(Student):
+    def __init__(self, listOfAtt):
+        super().__init__(listOfAtt)
+
+
+class Mentor(Student):
+    def __init__(self, listOfAtt):
+        super().__init__(listOfAtt)
