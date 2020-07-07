@@ -131,25 +131,31 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
         volStudent = volunteerStudentDict[volStudentAddress]
 
         menteeMsg = "#REF " + str(random.randint(1000,9999))\
-        + "\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home. " \
-        + "We have finished the matchmaking process for this cycle, and below is information about the student we have paired up with you and ways to contact them! \n\n" \
-        + "Your mentor's name: " + volStudent.getFirstName() + " " + volStudent.getLastName() + "\n" \
-        + "Email: " + volStudentAddress + "\n" \
-        + "Pronouns: " + volStudent.getPronouns() + "\n" \
-        + "Phone number: " + "we have to figure this out \n\n" \
-        + "Have fun with this! Again, we would like to give you our most heartfelt welcome to Carleton and we hope to see you around on campus!\n\n"\
-        + "#REF " + str(random.randint(1000,9999))
+        + "\nDear " + incomingStudent.getFirstName() + ","\
+        + "\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home."\
+        + "\n\nBased on your academic interests, your extracurricular activities, and other factors, you have been matched with a current Carleton student!"\
+        + "\n\nBelow is some information about your Coming2Carleton mentor."\
+        + "\n\nYour mentor's name: " + volStudent.getFirstName() + " " + volStudent.getLastName()\
+        + "\nEmail: " + volStudentAddress\
+        + "\nPronouns: " + volStudent.getPronouns()\
+        + "\nPhone number: " + "we have to figure this out"\
+        + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun."\
+        + "\n\nBest, the Coming2Carleton team"\
+        + "\n\n#REF " + str(random.randint(1000,9999))
 
         mentorMsg = "#REF " + str(random.randint(1000,9999))\
-        + "\nThank you for signing up to be a mentor for this year's Coming2Carleton program! " \
-        + "We have finished the matchmaking process for this cycle, and below is information about the student we have paired up with you and ways to contact them! \n\n" \
-        + "Your mentee's name: " + incomingStudent.getFirstName() + " " + incomingStudent.getLastName() + "\n" \
-        + "Email: " + incomingStudentEmail + "\n" \
-        + "Pronouns: " + incomingStudent.getPronouns() + "\n" \
-        + "Phone number: " + "we have to figure this out \n\n" \
-        + "We have attached a pdf that contain some basic guidelines and tips about interacting with your mentee. They're pretty basic and meant to " \
-        + "improve the experience for both of you. Again, thank you for participating and remembe to have fun with this! \n\n"\
-        + "#REF " + str(random.randint(1000,9999))
+        + "\n Dear " + volStudent.getFirstName() + ","\
+        + "\nThank you for signing up to be a mentor for this year's Coming2Carleton program!"\
+        + "\n\nThe matchmaking process for this cycle has just completed. Based on your academic interests, extracurricular activities, and other factors, you've been matched with an incoming student!"\
+        + "\n\nBelow is some information about your Coming2Carleton mentee."\
+        + "\n\nYour mentee's name: " + incomingStudent.getFirstName() + " " + incomingStudent.getLastName()\
+        + "\nEmail: " + incomingStudentEmail\
+        + "\nPronouns: " + incomingStudent.getPronouns()\
+        + "\nPhone number: " + "we have to figure this out"\
+        + "\n\nThe goal of the Coming2Carleton program is to reassure incoming students and answer any questions they may have about campus. The most important part is to have fun and make a new connection!"\
+        + "\n\nWe have attached a pdf that contain some basic guidelines and tips that can prepare you for your meeting with your mentee. Please glance at the possible questions to prepare yourself for the meeting. Have fun!"\
+        + "\n\nBest, the Coming2Carleton team"\
+        + "\n\n#REF " + str(random.randint(1000,9999))
 
     # email incoming students with a desired message
         msg = EmailMessage()
