@@ -10,6 +10,7 @@ class Student():
         self.activities = listOfAtt[7]
         self.race = listOfAtt[8]
         self.email = listOfAtt[9]
+        self.advertise = listOfAtt[10]
 
     def getTime(self):
         return self.time
@@ -40,6 +41,9 @@ class Student():
 
     def getEmail(self):
         return self.email
+
+    def getAdvertise(self):
+        return self.advertise
 
     def compareAttribute(self, otherStudent, attribute):
         # the conditional assigns the desired attribute to the variables
