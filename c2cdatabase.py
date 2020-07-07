@@ -168,7 +168,7 @@ def sendEmails(matchesDict, incomingStudentDict, volunteerStudentDict):
             smtp.login("coming2carleton@gmail.com", password)
             smtp.send_message(msg)
 
-        # a line so that the program waits 2 seconds between sending email so hopefully Google doesn't flag as spam
+        # a line so that the program waits 1 second between sending email so hopefully Google doesn't flag as spam
         time.sleep(1)
     # email the volunteers with a desired message
         msg = EmailMessage()
