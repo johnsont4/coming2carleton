@@ -1,16 +1,17 @@
 class Student():
     def __init__(self, listOfAtt):
         self.time = listOfAtt[0]
-        self.firstName = listOfAtt[1]
-        self.lastName = listOfAtt[2]
-        self.pronouns = listOfAtt[3]
-        self.study = listOfAtt[4]
+        self.email = listOfAtt[1]
+        self.firstName = listOfAtt[2]
+        self.lastName = listOfAtt[3]
+        self.pronouns = listOfAtt[4]
         self.domOrInt = listOfAtt[5]
         self.homeland = listOfAtt[6]
-        self.activities = listOfAtt[7]
-        self.race = listOfAtt[8]
-        self.email = listOfAtt[9]
+        self.race = listOfAtt[7]
+        self.study = listOfAtt[8]
+        self.activities = listOfAtt[9]
         self.advertise = listOfAtt[10]
+        self.compatibility = 0
 
     def getTime(self):
         return self.time
@@ -45,6 +46,12 @@ class Student():
     def getAdvertise(self):
         return self.advertise
 
+    def updateComp(self, compatibility):
+        self.compatibility = int(compatibility)
+
+    def getComp(self):
+        return self.compatibility
+
     def compareAttribute(self, otherStudent, attribute):
         # the conditional assigns the desired attribute to the variables
         # then, their bodies strip all white space from each string in the two lists
@@ -74,3 +81,4 @@ class Mentee(Student):
 class Mentor(Student):
     def __init__(self, listOfAtt):
         super().__init__(listOfAtt)
+        self.year = listOfAtt[11]

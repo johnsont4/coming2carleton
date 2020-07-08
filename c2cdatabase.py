@@ -76,7 +76,7 @@ def createMentorDict(data):
 
     return mentorDict
 
-# Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's email and the value is their compatability
+# Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's email and the value is their compatibility
 def makePair(mentor, points, possiblePairs):
     possiblePairs[mentor.getEmail()] = points
     return possiblePairs
@@ -200,27 +200,32 @@ def findMatches(mentees, mentors):
     # and their respective Student objects as keys.
     for mentee in mentees.values():
 
-        # Each incoming student gets a dictionary, possiblePairs, which has keys(volunteer's email address and values(volunteer's compatability with the incoming student
+        # Each incoming student gets a dictionary, possiblePairs, which has keys(volunteer's email address and values(volunteer's compatibility with the incoming student
         possiblePairs = {}
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
         # Every incoming student is compared with every volunteer student by iterating through the values of mentors,
         # a dictionary with keys = volunteer email address, values = their respective Student object
         for mentor in mentors.values():
-
             compatibility = getCompatibility(mentee, mentor)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
             makePair(mentor, compatibility, possiblePairs)
 
-        # Finds the volunteer with the highest compatability
+        #Updates compatibility scores for both the mentor and the mentee
+        #The compScore is an instance variable in the student class
+        compScore = max(possiblePairs.items())[1]
+        mentee.updateComp(compScore)
+
+        # Finds the volunteer with the highest compatibility
         # The variable is a string holding the email address of that volunteer
         compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+
+        mentors[compatibleMentorEmail].updateComp(compScore)
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[mentee.getEmail()] = compatibleMentorEmail
-
     return compatibleMatchesDict
 
 # The main function of the whole program
@@ -243,6 +248,7 @@ def main():
     # enters data into a spreadsheet(?) so we can analyze it. Not yet implemented, so commented out for now.
     # enterData()
 
-main()
+    return matches, mentees, mentors
+matches, mentees, mentors = main()
 
 ##

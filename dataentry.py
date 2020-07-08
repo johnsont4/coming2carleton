@@ -36,7 +36,7 @@ def updateMenteeData():
 
     for mentee1 in listOfMentees:
         menteedatasheet.insert_row(mentee1, 2)
-#updateMenteeData()
+updateMenteeData()
 
 def updateMentorData():
     listOfMentors = []
@@ -58,7 +58,7 @@ def updateMatchesData():
 
     for match1 in listOfMatches:
         matchesdatasheet.insert_row(match1, 2)
-#updateMatchesData()
+updateMatchesData()
 
 
 
