@@ -11,6 +11,8 @@ import operator
 # these are used to send emails
 import smtplib
 from email.message import EmailMessage
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 # used to force program to wait before sending emails
 import time
