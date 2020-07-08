@@ -170,26 +170,6 @@ def sendEmails(matchesDict, mentees, mentors):
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = menteeEmail
         msg.set_content(menteeMsg)
-        msg.add_alternative("""\
-        <!DOCTYPE html>
-        <html>
-            <body>
-            <p>Dear Kevin, Thank you for signing up to be a mentor for this year's Coming2Carleton program!</p>
-
-            <p>The matchmaking process for this cycle has just completed. Based on your academic interests, extracurricular activities, and other factors, you've been matched with an incoming student!</p>
-
-            <p>Below is some information about your Coming2Carleton mentee.</p>
-
-            <p>Your mentee's name: Teagan Johnson Email: blahblah@carleton.edu Pronouns: He/him/his Phone number: we have to figure this out</p>
-
-            <p>The goal of the Coming2Carleton program is to reassure incoming students and answer any questions they may have about campus. The most important part is to have fun and make a new connection!</p>
-
-            <p>We have attached a pdf that contain some basic guidelines and tips that can prepare you for your meeting with your mentee. Please glance at the possible questions to prepare yourself for the meeting. Have fun!</p>
-
-            <p>Best, the Coming2Carleton team</p>
-            </body>
-        </html>
-        """, subtype = "html")
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("coming2carleton@gmail.com", password)
@@ -203,27 +183,6 @@ def sendEmails(matchesDict, mentees, mentors):
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = mentorAddress
         msg.set_content(mentorMsg)
-
-        msg.add_alternative("""\
-        <!DOCTYPE html>
-        <html>
-            <body>
-            <p>Dear Kevin, Thank you for signing up to be a mentor for this year's Coming2Carleton program!</p>
-
-            <p>The matchmaking process for this cycle has just completed. Based on your academic interests, extracurricular activities, and other factors, you've been matched with an incoming student!</p>
-
-            <p>Below is some information about your Coming2Carleton mentee.</p>
-
-            <p>Your mentee's name: Teagan Johnson Email: blahblah@carleton.edu Pronouns: He/him/his Phone number: we have to figure this out</p>
-
-            <p>The goal of the Coming2Carleton program is to reassure incoming students and answer any questions they may have about campus. The most important part is to have fun and make a new connection!</p>
-
-            <p>We have attached a pdf that contain some basic guidelines and tips that can prepare you for your meeting with your mentee. Please glance at the possible questions to prepare yourself for the meeting. Have fun!</p>
-
-            <p>Best, the Coming2Carleton team</p>
-            </body>
-        </html>
-        """, subtype = "html")
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("coming2carleton@gmail.com", password)
