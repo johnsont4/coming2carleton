@@ -42,6 +42,15 @@ mentorwks = gc.open("GoogleF").get_worksheet(1)
 menteeData = menteewks.get_all_records()
 
 mentorData = mentorwks.get_all_records()
+
+#Spreadsheet with incoming data
+menteedatasheet = gc.open("DataF").sheet1
+
+#Spreadsheet with volunteer data
+mentordatasheet = gc.open("DataF").get_worksheet(1)
+
+#Spreadsheet with matches
+matchesdatasheet = gc.open("DataF").get_worksheet(2)
 #############################################################################
 
 # A dictionary that will have incoming students' emails and their respective Student object as values
@@ -189,9 +198,49 @@ def sendEmails(matchesDict, mentees, mentors):
             smtp.send_message(msg)
             smtp.quit()
 
-#This function enters key data to a spreadsheet. Not yet implemented.
-def enterData():
-    pass
+def enterData(matches, mentees, mentors):
+    def updateMenteeData():
+        #This list will eventually contain a list of each mentee's attributes
+        listOfMentees = []
+        #This for loop appends each mentee's attributes to the listOfMentees in the form of a list
+        for mentee in mentees:
+            oneMentee = list(vars(mentees[mentee]).values())
+            listOfMentees.append(oneMentee)
+
+        #This for loop inserts each mentee list into the google sheet
+        for mentee1 in listOfMentees:
+            menteedatasheet.insert_row(mentee1, 2)
+    updateMenteeData()
+
+    #This function inputs the second sheet of DataF with each mentor object's attributes
+    def updateMentorData():
+        #This list will eventually contain a list of each mentor's attributes
+        listOfMentors = []
+        #This for loop appends each mentor's attributes to the listOfMentors in the form of a list
+        for mentor in mentors:
+            oneMentor = list(vars(mentors[mentor]).values())
+            listOfMentors.append(oneMentor)
+
+        #This for loop inserts each mentor list into the google sheet
+        for mentor1 in listOfMentors:
+            mentordatasheet.insert_row(mentor1, 2)
+    updateMentorData()
+
+    #This function inputs the third sheet of DataF with each match
+    def updateMatchesData():
+        #Creates a list that will eventually contain smaller lists with matches
+        listOfMatches = []
+        #Converts dictionary of matches into lists of matches and adds them to listOfMatches
+        for match in matches:
+            pair = []
+            pair.append(match)
+            pair.append(matches[match])
+            listOfMatches.append(pair)
+
+        #Updates google sheet with matches
+        for match1 in listOfMatches:
+            matchesdatasheet.insert_row(match1, 2)
+    updateMatchesData()
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
 # and values = volunteer student's email address)
@@ -248,9 +297,8 @@ def main():
     sendEmails(matches, mentees, mentors)
 
     # enters data into a spreadsheet(?) so we can analyze it. Not yet implemented, so commented out for now.
-    # enterData()
+    enterData(matches, mentees, mentors)
 
-    return matches, mentees, mentors
-matches, mentees, mentors = main()
+main()
 
 ##
