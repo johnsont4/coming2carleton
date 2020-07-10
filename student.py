@@ -10,7 +10,7 @@ class Student():
         self.race = listOfAtt[7]
         self.study = listOfAtt[8]
         self.activities = listOfAtt[9]
-        self.advertise = listOfAtt[10]
+        self.advertise = listOfAtt[11]
         self.compatibility = 0
 
     def getTime(self):
@@ -76,9 +76,9 @@ class Student():
 class Mentee(Student):
     def __init__(self, listOfAtt):
         super().__init__(listOfAtt)
-
+        self.questions = listOfAtt[10]
 
 class Mentor(Student):
     def __init__(self, listOfAtt):
         super().__init__(listOfAtt)
-        self.year = listOfAtt[11]
+        self.year = listOfAtt[10]

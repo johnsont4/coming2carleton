@@ -296,7 +296,7 @@ def main():
     # sends emails to all mentors and mentees
     sendEmails(matches, mentees, mentors)
 
-    # enters data into a spreadsheet(?) so we can analyze it. Not yet implemented, so commented out for now.
+    # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
 
 main()
