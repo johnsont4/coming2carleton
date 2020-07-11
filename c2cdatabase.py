@@ -11,8 +11,6 @@ import operator
 # these are used to send emails
 import smtplib
 from email.message import EmailMessage
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 # used to force program to wait before sending emails
 import time
@@ -44,13 +42,13 @@ menteeData = menteewks.get_all_records()
 mentorData = mentorwks.get_all_records()
 
 #Spreadsheet with incoming data
-menteedatasheet = gc.open("DataF").sheet1
+menteedatasheet = gc.open("Master Sheet").sheet1
 
 #Spreadsheet with volunteer data
-mentordatasheet = gc.open("DataF").get_worksheet(1)
+mentordatasheet = gc.open("Master Sheet").get_worksheet(1)
 
 #Spreadsheet with matches
-matchesdatasheet = gc.open("DataF").get_worksheet(2)
+matchesdatasheet = gc.open("Master Sheet").get_worksheet(2)
 #############################################################################
 
 # A dictionary that will have incoming students' emails and their respective Student object as values
@@ -200,33 +198,43 @@ def sendEmails(matchesDict, mentees, mentors):
 
 def enterData(matches, mentees, mentors):
     def updateMenteeData():
+        currentMenteeEmails = set(menteedatasheet.col_values(2))
+
         #This list will eventually contain a list of each mentee's attributes
-        listOfMentees = []
+        listOfMenteesToAdd = []
+
         #This for loop appends each mentee's attributes to the listOfMentees in the form of a list
         for mentee in mentees:
-            oneMentee = list(vars(mentees[mentee]).values())
-            listOfMentees.append(oneMentee)
+            #Need this conditional to avoid duplications
+            if mentees[mentee].getEmail() not in currentMenteeEmails:
+                oneMentee = list(vars(mentees[mentee]).values())
+                listOfMenteesToAdd.append(oneMentee)
 
         #This for loop inserts each mentee list into the google sheet
-        for mentee1 in listOfMentees:
+        for mentee1 in listOfMenteesToAdd:
             menteedatasheet.insert_row(mentee1, 2)
     updateMenteeData()
 
-    #This function inputs the second sheet of DataF with each mentor object's attributes
+    #This function inputs the second sheet of Master Sheet with each mentor object's attributes
     def updateMentorData():
+        currentMentorEmails = set(mentordatasheet.col_values(2))
+
         #This list will eventually contain a list of each mentor's attributes
-        listOfMentors = []
+        listOfMentorsToAdd = []
+
         #This for loop appends each mentor's attributes to the listOfMentors in the form of a list
         for mentor in mentors:
-            oneMentor = list(vars(mentors[mentor]).values())
-            listOfMentors.append(oneMentor)
+            #Need this conditional to avoid duplications
+            if mentors[mentor].getEmail() not in currentMentorEmails:
+                oneMentor = list(vars(mentors[mentor]).values())
+                listOfMentorsToAdd.append(oneMentor)
 
         #This for loop inserts each mentor list into the google sheet
-        for mentor1 in listOfMentors:
+        for mentor1 in listOfMentorsToAdd:
             mentordatasheet.insert_row(mentor1, 2)
     updateMentorData()
 
-    #This function inputs the third sheet of DataF with each match
+    #This function inputs the third sheet of Master Sheet with each match
     def updateMatchesData():
         #Creates a list that will eventually contain smaller lists with matches
         listOfMatches = []
