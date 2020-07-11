@@ -286,7 +286,7 @@ def findMatches(mentees, mentors):
 def main():
     # Creates two dictionaries: one that will have incoming student email addresses and their respective Student object as values
     # and one that will have volunteer email addresses and their respective Student object as values
-    mentees = createMenteeDict(menteeData)
+    mentees = createMenteeDict(menteeData) 
     mentors = createMentorDict(mentorData)
 
     # finds best match for each incoming student and stores it in a dictionary with keys(incoming student email address)
