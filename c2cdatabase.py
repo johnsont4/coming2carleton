@@ -86,46 +86,68 @@ def createMentorDict(data):
     return mentorDict
 
 # Creates a new key-value pair in an incoming student's dictionary where the key is the volunteer student's email and the value is their compatibility
-def makePair(mentor, points, possiblePairs):
-    possiblePairs[mentor.getEmail()] = points
+def makePair(mentor, totalPoints, possiblePairs):
+    possiblePairs[mentor.getEmail()] = totalPoints
     return possiblePairs
 
 # Uses a series of if-Homelandments and a couple methods to return a number representing the compatibility between two students.
 def getCompatibility(mentee, mentor):
 
-    inPronouns = mentee.getPronouns()
-    inDomOrInt = mentee.getDomOrInt()
-    inHomeland = mentee.getHomeland().lower()
-    inRace = mentee.getRace()
+    menteePronouns = mentee.getPronouns()
+    menteeDomOrInt = mentee.getDomOrInt()
+    menteeHomeland = mentee.getHomeland().lower()
+    menteeRace = mentee.getRace()
+    menteePreference = mentee.getPreference()
 
     mentorPronouns = mentor.getPronouns()
     mentorDomOrInt = mentor.getDomOrInt()
     mentorHomeland = mentor.getHomeland().lower()
     mentorRace = mentor.getRace()
 
-    points = 0
+    academicPoints = 0
+    extracurricularPoints = 0
+    originPoints = 0
 
-    if inPronouns == mentorPronouns:
-        points += 3
+    academicPoints += 5 * mentee.compareAttribute(mentor, "study")
+    extracurricularPoints += 3 * mentee.compareAttribute(mentor, "activities")
 
-    points += 5 * mentee.compareAttribute(mentor, "study")
+    if menteePronouns == mentorPronouns == "They/them/theirs":
+        originPoints += 4
 
-    points += 2 * mentee.compareAttribute(mentor, "activities")
+    if menteePronouns == mentorPronouns == "He/him/his":
+        originPoints += 2
 
-    if inDomOrInt == mentorDomOrInt == "Domestic":
-        points += 3
-        if inHomeland == mentorHomeland:
-            points += 3
+    if menteePronouns == mentorPronouns == "She/her/hers":
+        originPoints += 2
 
-    if inDomOrInt == mentorDomOrInt == "International":
-        points += 5
-        if inHomeland == mentorHomeland:
-            points += 3
+    if menteeDomOrInt == mentorDomOrInt == "Domestic":
+        originPoints += 2
 
-    if inRace == mentorRace:
-        points += 3
+        if menteeHomeland == mentorHomeland:
+            originPoints += 2
 
-    return points
+    if menteeDomOrInt == mentorDomOrInt == "International":
+        originPoints += 4
+
+        if menteeHomeland == mentorHomeland:
+            originPoints += 3
+
+            if menteeRace == mentorRace:
+                originPoints -= 3
+
+    if menteeRace == mentorRace:
+        originPoints += 3
+
+    if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
+        academicPoints *= 2
+
+    if menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
+        extracurricularPoints *= 2
+
+    if menteePreference == "Origin (I want my match to be demographically similar to me)":
+        originPoints *= 2
+
+    return academicPoints + extracurricularPoints + originPoints
 
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(email addresses) and get the corresponding Student objects(so we can get info like their names).

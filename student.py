@@ -73,10 +73,14 @@ class Mentee(Student):
     def __init__(self, listOfAtt):
         super().__init__(listOfAtt)
         self.questions = listOfAtt[10]
-        self.preferences = listOfAtt[11]
+        self.preference = listOfAtt[11]
         self.advertise = listOfAtt[12]
+        
     def getAdvertise(self):
         return self.advertise
+
+    def getPreference(self):
+        return self.preference
 
 class Mentor(Student):
     def __init__(self, listOfAtt):
