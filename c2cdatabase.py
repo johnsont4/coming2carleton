@@ -12,8 +12,9 @@ import operator
 import smtplib
 from email.message import EmailMessage
 
-# used to force program to wait before sending emails
+# used to force program to wait before sending emails and to get today's date
 import time
+import datetime
 
 # used to make sure emails don't get cut (each email is unique)
 import random
@@ -166,8 +167,7 @@ def sendEmails(matchesDict, mentees, mentors):
         mentee = mentees[menteeEmail]
         mentor = mentors[mentorAddress]
 
-        menteeMsg = "#REF " + str(random.randint(1000,9999))\
-        + "\nDear " + mentee.getFirstName() + ","\
+        menteeMsg = "\nDear " + mentee.getFirstName() + ","\
         + "\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home."\
         + "\n\nBased on your academic interests, your extracurricular activities, and other factors, you have been matched with a current Carleton student!"\
         + "\n\nBelow is some information about your Coming2Carleton mentor."\
@@ -175,12 +175,10 @@ def sendEmails(matchesDict, mentees, mentors):
         + "\nEmail: " + mentorAddress\
         + "\nPronouns: " + mentor.getPronouns()\
         + "\nPhone number: " + "we have to figure this out"\
-        + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun."\
-        + "\n\nBest, the Coming2Carleton team"\
-        + "\n\n#REF " + str(random.randint(1000,9999))
+        + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun!"\
+        + "\n\nBest, \n The Coming2Carleton team"\
 
-        mentorMsg = "#REF " + str(random.randint(1000,9999))\
-        + "\n Dear " + mentor.getFirstName() + ","\
+        mentorMsg = "\n Dear " + mentor.getFirstName() + ","\
         + "\nThank you for signing up to be a mentor for this year's Coming2Carleton program!"\
         + "\n\nThe matchmaking process for this cycle has just completed. Based on your academic interests, extracurricular activities, and other factors, you've been matched with an incoming student!"\
         + "\n\nBelow is some information about your Coming2Carleton mentee."\
@@ -188,14 +186,16 @@ def sendEmails(matchesDict, mentees, mentors):
         + "\nEmail: " + menteeEmail\
         + "\nPronouns: " + mentee.getPronouns()\
         + "\nPhone number: " + "we have to figure this out"\
-        + "\n\nThe goal of the Coming2Carleton program is to reassure incoming students and answer any questions they may have about campus. The most important part is to have fun and make a new connection!"\
+        + "\n\nThe primary goal of the Coming2Carleton program is to reassure incoming students and answer any questions they may have about campus. The primary goal for you is to have fun and make a new connection!"\
         + "\n\nWe have attached a pdf that contain some basic guidelines and tips that can prepare you for your meeting with your mentee. Please glance at the possible questions to prepare yourself for the meeting. Have fun!"\
-        + "\n\nBest, the Coming2Carleton team"\
-        + "\n\n#REF " + str(random.randint(1000,9999))
+        + "\n\nBest, \n The Coming2Carleton team"\
 
     # email incoming students with a desired message
         msg = EmailMessage()
-        msg['Subject'] = "Information for C2C 2021 :)"
+        today = str(datetime.date.today())
+        today = today[5:]
+        subject = "(" + today + ") " + "Information for C2C 2021 :) "
+        msg['Subject'] = subject
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = menteeEmail
         msg.set_content(menteeMsg)
@@ -208,7 +208,7 @@ def sendEmails(matchesDict, mentees, mentors):
         time.sleep(1)
     # email the volunteers with a desired message
         msg = EmailMessage()
-        msg['Subject'] = "Information for C2C 2021 :)"
+        msg['Subject'] = subject
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = mentorAddress
         msg.set_content(mentorMsg)
