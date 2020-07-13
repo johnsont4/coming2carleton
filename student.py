@@ -11,6 +11,9 @@ class Student():
         self.study = listOfAtt[8]
         self.activities = listOfAtt[9]
         self.compatibility = 0
+        self.academicComp = 0
+        self.extracurricularComp =  0
+        self.originComp = 0
 
     def getTime(self):
         return self.time
@@ -47,6 +50,24 @@ class Student():
 
     def getComp(self):
         return self.compatibility
+
+    def updateAcademicComp(self, academicComp):
+        self.academicComp = int(academicComp)
+
+    def getAcademicComp(self):
+        return self.academicComp
+
+    def updateExtracurricularComp(self, extracurricularComp):
+        self.extracurricularComp = int(extracurricularComp)
+
+    def getExtracurricularComp(self):
+        return self.extracurricularComp
+
+    def updateOriginComp(self, originComp):
+        self.originComp = int(originComp)
+
+    def getOriginComp(self):
+        return self.originComp
 
     def compareAttribute(self, otherStudent, attribute):
         # the conditional assigns the desired attribute to the variables

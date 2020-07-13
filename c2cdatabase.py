@@ -92,6 +92,18 @@ def makePair(mentor, totalPoints, possiblePairs):
     possiblePairs[mentor.getEmail()] = totalPoints
     return possiblePairs
 
+def makeAcademicPair(mentor, academicPoints, possibleAcademicPairs):
+    possibleAcademicPairs[mentor.getEmail()] = academicPoints
+    return possibleAcademicPairs
+
+def makeExtracurricularPair(mentor, extracurricularPoints, possibleExtracurricularPairs):
+    possibleExtracurricularPairs[mentor.getEmail()] = extracurricularPoints
+    return possibleExtracurricularPairs
+
+def makeOriginPair(mentor, originPoints, possibleOriginPairs):
+    possibleOriginPairs[mentor.getEmail()] = originPoints
+    return possibleOriginPairs
+
 # Uses a series of if-Homelandments and a couple methods to return a number representing the compatibility between two students.
 def getCompatibility(incomingStudent, mentor):
 
@@ -140,6 +152,12 @@ def getCompatibility(incomingStudent, mentor):
     if incomingStudentRace == mentorRace:
         originPoints += 3
 
+    academicBeforePoints = academicPoints
+
+    extracurricularBeforePoints = extracurricularPoints
+
+    originBeforePoints = originPoints
+
     if incomingStudentPreference == "Academic Interests (I want my match to have similar academic interests as me)":
         academicPoints *= 2
 
@@ -149,7 +167,8 @@ def getCompatibility(incomingStudent, mentor):
     if incomingStudentPreference == "Origin (I want my match to be demographically similar to me)":
         originPoints *= 2
 
-    return academicPoints + extracurricularPoints + originPoints
+    totalCompScore = academicPoints + extracurricularPoints + originPoints
+    return totalCompScore, academicBeforePoints, extracurricularBeforePoints, originBeforePoints
 
 #This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(email addresses) and get the corresponding Student objects(so we can get info like their names).
@@ -284,19 +303,28 @@ def findMatches(incomingStudents, mentors):
 
         # Each incoming student gets a dictionary, possiblePairs, which has keys(volunteer's email address and values(volunteer's compatibility with the incoming student
         possiblePairs = {}
+        possibleAcademicPairs = {}
+        possibleExtracurricularPairs = {}
+        possibleOriginPairs = {}
 
         # This second for-loop iterates through each volunteer student for every iteration of the outer loop
         # Every incoming student is compared with every volunteer student by iterating through the values of mentors,
         # a dictionary with keys = volunteer email address, values = their respective Student object
         for mentor in mentors.values():
-            compatibility = getCompatibility(incomingStudent, mentor)
+            compatibility, academicCompatibility, extracurricularCompatibility, originCompatibility\
+             = getCompatibility(incomingStudent, mentor)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
             makePair(mentor, compatibility, possiblePairs)
+            makeAcademicPair(mentor, academicCompatibility, possibleAcademicPairs)
+            makeExtracurricularPair(mentor, extracurricularCompatibility, possibleExtracurricularPairs)
+            makeOriginPair(mentor, originCompatibility, possibleOriginPairs)
 
         #Updates compatibility scores for both the mentor and the incomingStudent
         #The compScore is an instance variable in the student class
-        compScore = max(possiblePairs.items())[1]
+        possiblePairsValues = possiblePairs.values()
+        compScore = max(possiblePairsValues)
+
         incomingStudent.updateComp(compScore)
 
         # Finds the volunteer with the highest compatibility
@@ -304,6 +332,19 @@ def findMatches(incomingStudents, mentors):
         compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
         mentors[compatibleMentorEmail].updateComp(compScore)
+
+
+        academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
+        incomingStudent.updateAcademicComp(academicCompScore)
+        mentors[compatibleMentorEmail].updateAcademicComp(academicCompScore)
+
+        extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
+        incomingStudent.updateExtracurricularComp(extracurricularCompScore)
+        mentors[compatibleMentorEmail].updateExtracurricularComp(extracurricularCompScore)
+
+        originCompScore = possibleOriginPairs[compatibleMentorEmail]
+        incomingStudent.updateOriginComp(originCompScore)
+        mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
