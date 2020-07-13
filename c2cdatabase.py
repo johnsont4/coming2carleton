@@ -325,7 +325,7 @@ def main():
     matches = findMatches(incomingStudents, mentors)
 
     # sends emails to all mentors and incomingStudents
-    #sendEmails(matches, incomingStudents, mentors)
+    sendEmails(matches, incomingStudents, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, incomingStudents, mentors)
