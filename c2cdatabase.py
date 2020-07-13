@@ -82,6 +82,7 @@ def createMentorDict(data):
     for attributes in data:
         attributes = list(attributes.values())
         mentor = makeMentor(attributes)
+
         mentorDict[mentor.getEmail()] = mentor
 
     return mentorDict
@@ -235,7 +236,7 @@ def enterData(matches, incomingStudents, mentors):
         #This for loop inserts each incomingStudent list into the google sheet
         for incomingStudent1 in listOfIncomingStudentsToAdd:
             incomingStudentdatasheet.insert_row(incomingStudent1, 2)
-    updateincomingStudentData()
+    updateIncomingStudentData()
 
     #This function inputs the second sheet of Master Sheet with each mentor object's attributes
     def updateMentorData():
@@ -324,7 +325,7 @@ def main():
     matches = findMatches(incomingStudents, mentors)
 
     # sends emails to all mentors and incomingStudents
-    sendEmails(matches, incomingStudents, mentors)
+    #sendEmails(matches, incomingStudents, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, incomingStudents, mentors)
