@@ -43,13 +43,13 @@ menteeData = menteewks.get_all_records()
 mentorData = mentorwks.get_all_records()
 
 #Spreadsheet with incoming data
-menteedatasheet = gc.open("Master Sheet").sheet1
+menteeDatasheet = gc.open("Master Sheet").sheet1
 
 #Spreadsheet with volunteer data
-mentordatasheet = gc.open("Master Sheet").get_worksheet(1)
+mentorDatasheet = gc.open("Master Sheet").get_worksheet(1)
 
 #Spreadsheet with matches
-matchesdatasheet = gc.open("Master Sheet").get_worksheet(2)
+matchesDatasheet = gc.open("Master Sheet").get_worksheet(2)
 #############################################################################
 
 # A dictionary that will have incoming students' emails and their respective Student object as values
@@ -240,40 +240,40 @@ def sendEmails(matchesDict, mentees, mentors):
 
 def enterData(matches, mentees, mentors):
     def updateMenteeData():
-        currentmenteeEmails = set(menteedatasheet.col_values(2))
+        currentMenteeEmails = set(menteeDatasheet.col_values(2))
 
         #This list will eventually contain a list of each mentee's attributes
-        listOfMenteesToAdd = []
+        menteesToAdd = []
 
-        #This for loop appends each mentee's attributes to the listOfmentees in the form of a list
+        #This for loop appends each mentee's attributes to the listOfMentees in the form of a list
         for mentee in mentees:
             #Need this conditional to avoid duplications
-            if mentees[mentee].getEmail() not in currentmenteeEmails:
+            if mentees[mentee].getEmail() not in currentMenteeEmails:
                 oneMentee = list(vars(mentees[mentee]).values())
-                listOfMenteesToAdd.append(oneMentee)
+                menteesToAdd.append(oneMentee)
 
         #This for loop inserts each mentee list into the google sheet
-        for mentee1 in listOfMenteesToAdd:
-            menteedatasheet.insert_row(mentee1, 2)
+        for mentee1 in menteesToAdd:
+            menteeDatasheet.insert_row(mentee1, 2)
     updateMenteeData()
 
     #This function inputs the second sheet of Master Sheet with each mentor object's attributes
     def updateMentorData():
-        currentMentorEmails = set(mentordatasheet.col_values(2))
+        currentMentorEmails = set(mentorDatasheet.col_values(2))
 
         #This list will eventually contain a list of each mentor's attributes
-        listOfMentorsToAdd = []
+        mentorsToAdd = []
 
         #This for loop appends each mentor's attributes to the listOfMentors in the form of a list
         for mentor in mentors:
             #Need this conditional to avoid duplications
             if mentors[mentor].getEmail() not in currentMentorEmails:
                 oneMentor = list(vars(mentors[mentor]).values())
-                listOfMentorsToAdd.append(oneMentor)
+                mentorsToAdd.append(oneMentor)
 
         #This for loop inserts each mentor list into the google sheet
-        for mentor1 in listOfMentorsToAdd:
-            mentordatasheet.insert_row(mentor1, 2)
+        for mentor1 in mentorsToAdd:
+            mentorDatasheet.insert_row(mentor1, 2)
     updateMentorData()
 
     #This function inputs the third sheet of Master Sheet with each match
@@ -289,7 +289,7 @@ def enterData(matches, mentees, mentors):
 
         #Updates google sheet with matches
         for match1 in listOfMatches:
-            matchesdatasheet.insert_row(match1, 2)
+            matchesDatasheet.insert_row(match1, 2)
     updateMatchesData()
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
@@ -311,12 +311,12 @@ def findMatches(mentees, mentors):
         # Every incoming student is compared with every volunteer student by iterating through the values of mentors,
         # a dictionary with keys = volunteer email address, values = their respective Student object
         for mentor in mentors.values():
-            compatibility, academicCompatibility, extracurricularCompatibility, originCompatibility\
+            compatibility, academicComp, extracurricularCompatibility, originCompatibility\
              = getCompatibility(mentee, mentor)
 
             # Creates a new key-value pair within an incoming student's dictionary as described earlier
             makePair(mentor, compatibility, possiblePairs)
-            makeAcademicPair(mentor, academicCompatibility, possibleAcademicPairs)
+            makeAcademicPair(mentor, academicComp, possibleAcademicPairs)
             makeExtracurricularPair(mentor, extracurricularCompatibility, possibleExtracurricularPairs)
             makeOriginPair(mentor, originCompatibility, possibleOriginPairs)
 
@@ -332,7 +332,6 @@ def findMatches(mentees, mentors):
         compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
 
         mentors[compatibleMentorEmail].updateComp(compScore)
-
 
         academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
         mentee.updateAcademicComp(academicCompScore)
