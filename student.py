@@ -90,7 +90,7 @@ class Student():
 
         return numIntersections
 
-class IncomingStudent(Student):
+class Mentee(Student):
     def __init__(self, listOfAtt):
         super().__init__(listOfAtt)
         self.questions = listOfAtt[10]
