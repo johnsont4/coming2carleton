@@ -14,6 +14,7 @@ class Student():
         self.academicComp = 0
         self.extracurricularComp =  0
         self.originComp = 0
+        self.matched = False
 
     def getTime(self):
         return self.time
@@ -68,6 +69,12 @@ class Student():
 
     def getOriginComp(self):
         return self.originComp
+
+    def getMatched(self):
+        return self.matched
+
+    def changeMatchStatus(self):
+        self.matched = not self.matched
 
     def compareAttribute(self, otherStudent, attribute):
         # the conditional assigns the desired attribute to the variables
