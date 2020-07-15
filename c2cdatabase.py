@@ -188,27 +188,24 @@ def sendEmails(matchesDict, mentees, mentors):
         mentor = mentors[mentorAddress]
 
         menteeMsg = "\nDear " + mentee.getFirstName() + ","\
-        + "\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home."\
-        + "\n\nBased on your academic interests, your extracurricular activities, and other factors, you have been matched with a current Carleton student!"\
+        + "\n\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home."\
         + "\n\nBelow is some information about your Coming2Carleton mentor."\
-        + "\n\nYour mentor's name: " + mentor.getFirstName() + " " + mentor.getLastName()\
+        + "\n\nName: " + mentor.getFirstName() + " " + mentor.getLastName()\
         + "\nEmail: " + mentorAddress\
         + "\nPronouns: " + mentor.getPronouns()\
-        + "\nPhone number: " + "we have to figure this out"\
         + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun!"\
         + "\n\nBest, \n The Coming2Carleton team"\
 
-        mentorMsg = "\n Dear " + mentor.getFirstName() + ","\
-        + "\nThank you for signing up to be a mentor for this year's Coming2Carleton program!"\
-        + "\n\nThe matchmaking process for this cycle has just completed. Based on your academic interests, extracurricular activities, and other factors, you've been matched with an incoming student!"\
-        + "\n\nBelow is some information about your Coming2Carleton incomingStudent."\
-        + "\n\nYour incomingStudent's name: " + mentee.getFirstName() + " " + mentee.getLastName()\
+        mentorMsg = "\nDear " + mentor.getFirstName() + ","\
+        + "\n\nThank you for signing up to be a mentor for this year's Coming2Carleton program!"\
+        + "\n\nBelow is some information about your Coming2Carleton incoming student."\
+        + "\n\nName: " + mentee.getFirstName() + " " + mentee.getLastName()\
         + "\nEmail: " + menteeEmail\
         + "\nPronouns: " + mentee.getPronouns()\
-        + "\nPhone number: " + "we have to figure this out"\
-        + "\n\nThe primary goal of the Coming2Carleton program is to reassure incoming students and answer any questions they may have about campus. The primary goal for you is to have fun and make a new connection!"\
-        + "\n\nWe have attached a pdf that contain some basic guidelines and tips that can prepare you for your meeting with your incomingStudent. Please glance at the possible questions to prepare yourself for the meeting. Have fun!"\
-        + "\n\nBest, \n The Coming2Carleton team"\
+        + "\nPressing Questions (if indicated on Google Form): " + mentee.getQuestions()\
+        + "\n\nWe hope that you take advantage of this opportunity to create a meaningful connection with one of your future peers!"\
+        + "\n\nAttached to this note is a pdf that contains some basic guidelines and tips in preparation for your meeting. Have fun!"\
+        + "\n\nBest, \nThe Coming2Carleton team"\
 
     # email incoming students with a desired message
         msg = EmailMessage()

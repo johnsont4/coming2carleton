@@ -104,6 +104,9 @@ class Mentee(Student):
         self.preference = listOfAtt[11]
         self.advertise = listOfAtt[12]
 
+    def getQuestions(self):
+        return self.questions
+        
     def getAdvertise(self):
         return self.advertise
 
