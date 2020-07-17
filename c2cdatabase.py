@@ -350,7 +350,6 @@ def findMatches(mentees, mentors):
             originCompScore = possibleOriginPairs[compatibleMentorEmail]
             mentee.updateOriginComp(originCompScore)
             mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
-
         updateScores()
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.

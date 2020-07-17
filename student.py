@@ -14,7 +14,6 @@ class Student():
         self.academicComp = 0
         self.extracurricularComp =  0
         self.originComp = 0
-        self.matched = False
 
     def getTime(self):
         return self.time
@@ -70,12 +69,6 @@ class Student():
     def getOriginComp(self):
         return self.originComp
 
-    def getMatched(self):
-        return self.matched
-
-    def changeMatchStatus(self):
-        self.matched = not self.matched
-
     def compareAttribute(self, otherStudent, attribute):
         # the conditional assigns the desired attribute to the variables
         # then, their bodies strip all white space from each string in the two lists
@@ -106,7 +99,7 @@ class Mentee(Student):
 
     def getQuestions(self):
         return self.questions
-        
+
     def getAdvertise(self):
         return self.advertise
 
@@ -118,5 +111,13 @@ class Mentor(Student):
         super().__init__(listOfAtt)
         self.year = listOfAtt[10]
         self.advertise = listOfAtt[11]
+        self.matched = False
+
     def getAdvertise(self):
         return self.advertise
+
+    def getMatched(self):
+        return self.matched
+
+    def changeMatchStatus(self):
+        self.matched = not self.matched
