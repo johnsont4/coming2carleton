@@ -37,11 +37,11 @@ def sendMenteeEmails(menteeEmails, password):
 
     for menteeEmail in menteeEmails:
         msg = EmailMessage()
-        msg = "Hello"
+        msg1 = "Hello"
         msg['Subject'] = 'hello'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = menteeEmail
-        msg.set_content(msg)
+        msg.set_content(msg1)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("coming2carleton@gmail.com", password)
@@ -57,11 +57,11 @@ def sendMentorEmails(menteeEmails, password):
 
     for mentorEmail in mentorEmails:
         msg = EmailMessage()
-        msg = "Hello"
+        msg1 = "Hello"
         msg['Subject'] = 'hello'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = mentorEmail
-        msg.set_content(msg)
+        msg.set_content(msg1)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("coming2carleton@gmail.com", password)
