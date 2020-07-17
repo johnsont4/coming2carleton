@@ -127,10 +127,7 @@ def getCompatibility(mentee, mentor):
     if menteePronouns == mentorPronouns == "They/them/theirs":
         originPoints += 4
 
-    if menteePronouns == mentorPronouns == "He/him/his":
-        originPoints += 2
-
-    if menteePronouns == mentorPronouns == "She/her/hers":
+    if menteePronouns == mentorPronouns == "He/him/his" or "She/her/hers":
         originPoints += 2
 
     if menteeDomOrInt == mentorDomOrInt == "Domestic":
@@ -309,12 +306,12 @@ def findMatches(mentees, mentors):
         # Every incoming student is compared with every volunteer student by iterating through the values of mentors,
         # a dictionary with keys = volunteer email address, values = their respective Student object
         for mentor in mentors.values():
+
             # if a mentor has already been matched, then he/she is not compared with the current mentee
             if mentor.getMatched():
                 continue
 
-            compatibility, academicComp, extracurricularCompatibility, originCompatibility\
-             = getCompatibility(mentee, mentor)
+            compatibility, academicComp, extracurricularCompatibility, originCompatibility = getCompatibility(mentee, mentor)
 
             # Creates 4 key-value pairs within an incoming student's 4 dictionaries
             makePair(mentor, compatibility, possiblePairs)
@@ -355,6 +352,17 @@ def findMatches(mentees, mentors):
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[mentee.getEmail()] = compatibleMentorEmail
+        
+    '''
+    num = 1
+    for menteeEmail in compatibleMatchesDict:
+        print("Pair #", str(num), ": ")
+        print("Mentee name: ", mentees[menteeEmail].getFirstName())
+        print("Mentor name: ", mentors[compatibleMatchesDict[menteeEmail]].getFirstName())
+        print()
+        num += 1
+    '''
+
 
     return compatibleMatchesDict
 
