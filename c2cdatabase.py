@@ -349,20 +349,20 @@ def findMatches(mentees, mentors):
             mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
         updateScores()
 
+        print()
+        print()
+        print("Incoming: ", mentee.getFirstName())
+        print("Mentor: ", mentors[compatibleMentorEmail].getFirstName())
+        print("Incoming preference: ", mentee.getPreference())
+        print()
+        print("Total comp score: ", compScore)
+        print("Total academic score: ", mentee.getAcademicComp())
+        print("Total extracurricular score: ", mentee.getExtracurricularComp())
+        print("Total origin score: ", mentee.getOriginComp())
+
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[mentee.getEmail()] = compatibleMentorEmail
-        
-    '''
-    num = 1
-    for menteeEmail in compatibleMatchesDict:
-        print("Pair #", str(num), ": ")
-        print("Mentee name: ", mentees[menteeEmail].getFirstName())
-        print("Mentor name: ", mentors[compatibleMatchesDict[menteeEmail]].getFirstName())
-        print()
-        num += 1
-    '''
-
 
     return compatibleMatchesDict
 
