@@ -37,8 +37,11 @@ def sendMenteeEmails(menteeEmails, password):
 
     for menteeEmail in menteeEmails:
         msg = EmailMessage()
-        msg1 = "Hello"
-        msg['Subject'] = 'hello'
+        msg1 = "\nThank you for participating in the Coming2Carleton program! We hope you had a great experience."\
+        +"\n\nWe'd love to hear about your experience. Below is a link to fill out a short form!"\
+        +"\n\nhttps://forms.gle/cwZp37Jhrsnjb2LF7"\
+        +"\n\nBest,\nThe Coming2Carleton team"
+        msg['Subject'] = 'Coming2Carleton Feedback!'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = menteeEmail
         msg.set_content(msg1)
@@ -58,7 +61,7 @@ def sendMentorEmails(menteeEmails, password):
     for mentorEmail in mentorEmails:
         msg = EmailMessage()
         msg1 = "Hello"
-        msg['Subject'] = 'hello'
+        msg['Subject'] = 'Coming2Carleton Feedback!'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = mentorEmail
         msg.set_content(msg1)
