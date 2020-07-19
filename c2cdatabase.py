@@ -32,10 +32,10 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name\
 gc = gspread.authorize(credentials)
 
 # This is all the data for incoming students
-menteewks = gc.open('GoogleF').sheet1
+menteewks = gc.open('Student Database').sheet1
 
 # This is all the data for volunteer students
-mentorwks = gc.open("GoogleF").get_worksheet(1)
+mentorwks = gc.open("Student Database").get_worksheet(1)
 
 # These are lists of dictionaries that hold the variables for each group of students
 menteeData = menteewks.get_all_records()
@@ -255,11 +255,14 @@ def enterData(matches, mentees, mentors):
     def updateMentorData():
         currentMentorEmails = set(mentorDatasheet.col_values(2))
 
-        #This list will eventually contain a list of each mentor's attributes
-        mentorsToAdd = []
+        mentorsToPossiblyAdd = []
+        for menteeEmail in matches:
+            mentorEmail = matches[menteeEmail]
+            mentorsToPossiblyAdd.append(mentorEmail)
 
+        mentorsToAdd = []
         #This for loop appends each mentor's attributes to the listOfMentors in the form of a list
-        for mentor in mentors:
+        for mentor in mentorsToPossiblyAdd:
             #Need this conditional to avoid duplications
             if mentors[mentor].getEmail() not in currentMentorEmails:
                 oneMentor = list(vars(mentors[mentor]).values())
@@ -268,6 +271,7 @@ def enterData(matches, mentees, mentors):
         #This for loop inserts each mentor list into the google sheet
         for mentor1 in mentorsToAdd:
             mentorDatasheet.insert_row(mentor1, 2)
+            time.sleep(.5)
     updateMentorData()
 
     #This function inputs the third sheet of Master Sheet with each match
@@ -284,6 +288,12 @@ def enterData(matches, mentees, mentors):
         #Updates google sheet with matches
         for match1 in listOfMatches:
             matchesDatasheet.insert_row(match1, 2)
+
+        date = str(datetime.datetime.now())
+        matchesDatasheet.insert_row(['',''], 2)
+        matchesDatasheet.insert_row(['NEW GROUP',date], 2)
+        matchesDatasheet.insert_row(['',''], 2)
+        time.sleep(.5)
     updateMatchesData()
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
@@ -349,7 +359,8 @@ def findMatches(mentees, mentors):
             mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
         updateScores()
 
-        print()
+        #Used to figure out good algorithm
+        """print()
         print()
         print("Incoming: ", mentee.getFirstName())
         print("Mentor: ", mentors[compatibleMentorEmail].getFirstName())
@@ -358,7 +369,7 @@ def findMatches(mentees, mentors):
         print("Total comp score: ", compScore)
         print("Total academic score: ", mentee.getAcademicComp())
         print("Total extracurricular score: ", mentee.getExtracurricularComp())
-        print("Total origin score: ", mentee.getOriginComp())
+        print("Total origin score: ", mentee.getOriginComp())"""
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
@@ -381,7 +392,7 @@ def main():
     matches = findMatches(mentees, mentors)
 
     # sends emails to all mentors and mentees
-    sendEmails(matches, mentees, mentors)
+    #sendEmails(matches, mentees, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
