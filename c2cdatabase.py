@@ -255,11 +255,14 @@ def enterData(matches, mentees, mentors):
     def updateMentorData():
         currentMentorEmails = set(mentorDatasheet.col_values(2))
 
-        #This list will eventually contain a list of each mentor's attributes
-        mentorsToAdd = []
+        mentorsToPossiblyAdd = []
+        for menteeEmail in matches:
+            mentorEmail = matches[menteeEmail]
+            mentorsToPossiblyAdd.append(mentorEmail)
 
+        mentorsToAdd = []
         #This for loop appends each mentor's attributes to the listOfMentors in the form of a list
-        for mentor in mentors:
+        for mentor in mentorsToPossiblyAdd:
             #Need this conditional to avoid duplications
             if mentors[mentor].getEmail() not in currentMentorEmails:
                 oneMentor = list(vars(mentors[mentor]).values())
@@ -268,6 +271,7 @@ def enterData(matches, mentees, mentors):
         #This for loop inserts each mentor list into the google sheet
         for mentor1 in mentorsToAdd:
             mentorDatasheet.insert_row(mentor1, 2)
+            time.sleep(.5)
     updateMentorData()
 
     #This function inputs the third sheet of Master Sheet with each match
@@ -289,6 +293,7 @@ def enterData(matches, mentees, mentors):
         matchesDatasheet.insert_row(['',''], 2)
         matchesDatasheet.insert_row(['NEW GROUP',date], 2)
         matchesDatasheet.insert_row(['',''], 2)
+        time.sleep(.5)
     updateMatchesData()
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
@@ -387,7 +392,7 @@ def main():
     matches = findMatches(mentees, mentors)
 
     # sends emails to all mentors and mentees
-    sendEmails(matches, mentees, mentors)
+    #sendEmails(matches, mentees, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
