@@ -51,8 +51,6 @@ def sendMenteeEmails(menteeEmails, password):
         time.sleep(1)
 sendMenteeEmails(menteeEmails, password)
 
-
-
 def sendMentorEmails(menteeEmails, password):
 
     for mentorEmail in mentorEmails:
@@ -70,15 +68,3 @@ def sendMentorEmails(menteeEmails, password):
 
         time.sleep(1)
 sendMentorEmails(mentorEmails, password)
-
-
-
-
-
-
-
-
-
-
-
-    ##
