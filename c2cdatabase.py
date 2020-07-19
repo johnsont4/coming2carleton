@@ -43,13 +43,13 @@ menteeData = menteewks.get_all_records()
 mentorData = mentorwks.get_all_records()
 
 #Spreadsheet with incoming data
-menteeDatasheet = gc.open("Master Sheet").sheet1
+menteeDatasheet = gc.open("Matches Master Sheet").sheet1
 
 #Spreadsheet with volunteer data
-mentorDatasheet = gc.open("Master Sheet").get_worksheet(1)
+mentorDatasheet = gc.open("Matches Master Sheet").get_worksheet(1)
 
 #Spreadsheet with matches
-matchesDatasheet = gc.open("Master Sheet").get_worksheet(2)
+matchesDatasheet = gc.open("Matches Master Sheet").get_worksheet(2)
 #############################################################################
 # A function that makes a Student object using a list of attributes each time it is called
 def makeMentee(listOfAtt):
@@ -191,15 +191,16 @@ def sendEmails(matchesDict, mentees, mentors):
         + "\nEmail: " + mentorAddress\
         + "\nPronouns: " + mentor.getPronouns()\
         + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun!"\
-        + "\n\nBest, \n The Coming2Carleton team"\
+        + "\n\nBest, \nThe Coming2Carleton team"\
 
         mentorMsg = "\nDear " + mentor.getFirstName() + ","\
         + "\n\nThank you for signing up to be a mentor for this year's Coming2Carleton program!"\
-        + "\n\nBelow is some information about your Coming2Carleton incoming student."\
+        + "\n\nAs a mentor, you're expected to send your match an email in a timely fashion."\
+        + "\n\nBelow is some information about your Coming2Carleton match!"\
         + "\n\nName: " + mentee.getFirstName() + " " + mentee.getLastName()\
         + "\nEmail: " + menteeEmail\
         + "\nPronouns: " + mentee.getPronouns()\
-        + "\nPressing Questions (if indicated on Google Form): " + mentee.getQuestions()\
+        + "\nForemost Questions (if any): " + mentee.getQuestions()\
         + "\n\nWe hope that you take advantage of this opportunity to create a meaningful connection with one of your future peers!"\
         + "\n\nAttached to this note is a pdf that contains some basic guidelines and tips in preparation for your meeting. Have fun!"\
         + "\n\nBest, \nThe Coming2Carleton team"\
@@ -208,7 +209,7 @@ def sendEmails(matchesDict, mentees, mentors):
         msg = EmailMessage()
         today = str(datetime.date.today())
         today = today[5:]
-        subject = "(" + today + ") " + "Information for C2C 2021 :) "
+        subject = "(" + today + ") " + "Information for C2C 2021 :)"
         msg['Subject'] = subject
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = menteeEmail
@@ -392,7 +393,7 @@ def main():
     matches = findMatches(mentees, mentors)
 
     # sends emails to all mentors and mentees
-    #sendEmails(matches, mentees, mentors)
+    sendEmails(matches, mentees, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
