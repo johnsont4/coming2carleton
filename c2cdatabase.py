@@ -110,7 +110,7 @@ def getCompatibility(mentee, mentor):
     menteeDomOrInt = mentee.getDomOrInt()
     menteeHomeland = mentee.getHomeland().lower()
     menteeRace = mentee.getRace()
-    menteePreference = mentee.getPreference()
+    menteePreferences = mentee.getPreference().split(', ')
 
     mentorPronouns = mentor.getPronouns()
     mentorDomOrInt = mentor.getDomOrInt()
@@ -127,7 +127,10 @@ def getCompatibility(mentee, mentor):
     if menteePronouns == mentorPronouns == "They/them/theirs":
         originPoints += 4
 
-    if menteePronouns == mentorPronouns == "He/him/his" or "She/her/hers":
+    if menteePronouns == mentorPronouns == "He/him/his":
+        originPoints += 2
+
+    if menteePronouns == mentorPronouns == "She/her/hers":
         originPoints += 2
 
     if menteeDomOrInt == mentorDomOrInt == "Domestic":
@@ -154,14 +157,27 @@ def getCompatibility(mentee, mentor):
     originBeforePoints = originPoints
 
     # apply preferences to weight one or more areas more highly
-    if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
-        academicPoints *= 2
+    for menteePreference in menteePreferences:
+        if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
+            if academicPoints == 0:
+                extracurricularPoints = 0
+                originPoints = 0
+            else:
+                academicPoints *= 2
 
-    if menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
-        extracurricularPoints *= 2
+        elif menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
+            if extracurricularPoints == 0:
+                academicPoints = 0
+                originPoints = 0
+            else:
+                extracurricularPoints *= 2
 
-    if menteePreference == "Origin (I want my match to be demographically similar to me)":
-        originPoints *= 2
+        elif menteePreference == "Origin (I want my match to be demographically similar to me)":
+            if originPoints == 0:
+                academicPoints = 0
+                extracurricularPoints = 0
+            else:
+                originPoints *= 2
 
     # combines all 3 scores
     totalCompScore = academicPoints + extracurricularPoints + originPoints
@@ -393,7 +409,7 @@ def main():
     matches = findMatches(mentees, mentors)
 
     # sends emails to all mentors and mentees
-    sendEmails(matches, mentees, mentors)
+    #sendEmails(matches, mentees, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
