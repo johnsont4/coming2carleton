@@ -32,10 +32,10 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name\
 gc = gspread.authorize(credentials)
 
 # This is all the data for incoming students
-menteewks = gc.open('GoogleF').sheet1
+menteewks = gc.open('Student Database').sheet1
 
 # This is all the data for volunteer students
-mentorwks = gc.open("GoogleF").get_worksheet(1)
+mentorwks = gc.open("Student Database").get_worksheet(1)
 
 # These are lists of dictionaries that hold the variables for each group of students
 menteeData = menteewks.get_all_records()
@@ -284,6 +284,11 @@ def enterData(matches, mentees, mentors):
         #Updates google sheet with matches
         for match1 in listOfMatches:
             matchesDatasheet.insert_row(match1, 2)
+
+        date = str(datetime.datetime.now())
+        matchesDatasheet.insert_row(['',''], 2)
+        matchesDatasheet.insert_row(['NEW GROUP',date], 2)
+        matchesDatasheet.insert_row(['',''], 2)
     updateMatchesData()
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
@@ -349,7 +354,8 @@ def findMatches(mentees, mentors):
             mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
         updateScores()
 
-        print()
+        #Used to figure out good algorithm
+        """print()
         print()
         print("Incoming: ", mentee.getFirstName())
         print("Mentor: ", mentors[compatibleMentorEmail].getFirstName())
@@ -358,7 +364,7 @@ def findMatches(mentees, mentors):
         print("Total comp score: ", compScore)
         print("Total academic score: ", mentee.getAcademicComp())
         print("Total extracurricular score: ", mentee.getExtracurricularComp())
-        print("Total origin score: ", mentee.getOriginComp())
+        print("Total origin score: ", mentee.getOriginComp())"""
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.

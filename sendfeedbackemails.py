@@ -18,9 +18,9 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name\
 # Uses the credentials variable to access google spreadsheets
 gc = gspread.authorize(credentials)
 
-menteeData = gc.open('Master Sheet').sheet1
+menteeData = gc.open('Emails to send').sheet1
 
-mentorData = gc.open('Master Sheet').get_worksheet(1)
+mentorData = gc.open('Emails to send').get_worksheet(1)
 
 menteeEmailWKS = menteeData.col_values(2)
 
@@ -60,7 +60,10 @@ def sendMentorEmails(menteeEmails, password):
 
     for mentorEmail in mentorEmails:
         msg = EmailMessage()
-        msg1 = "Hello"
+        msg1 = "\nThank you for participating in the Coming2Carleton program! We hope you had a great experience."\
+        +"\n\nWe'd love to hear about your experience. Below is a link to fill out a short form!"\
+        +"\n\nhttps://forms.gle/k4H5kDWnuHhFXqtW9"\
+        +"\n\nBest,\nThe Coming2Carleton team"
         msg['Subject'] = 'Coming2Carleton Feedback!'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = mentorEmail
