@@ -18,13 +18,11 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name\
 # Uses the credentials variable to access google spreadsheets
 gc = gspread.authorize(credentials)
 
-menteeData = gc.open('Emails to send').sheet1
+allEmails = gc.open('Emails to send').sheet1
 
-mentorData = gc.open('Emails to send').get_worksheet(1)
+menteeEmailWKS = allEmails.col_values(1)
 
-menteeEmailWKS = menteeData.col_values(2)
-
-mentorEmailWKS = mentorData.col_values(2)
+mentorEmailWKS = allEmails.col_values(2)
 
 menteeEmails = menteeEmailWKS[1:]
 
