@@ -110,7 +110,7 @@ def getCompatibility(mentee, mentor):
     menteeDomOrInt = mentee.getDomOrInt()
     menteeHomeland = mentee.getHomeland().lower()
     menteeRace = mentee.getRace()
-    menteePreferences = mentee.getPreference().split(', ')
+    menteePreference = mentee.getPreference()
 
     mentorPronouns = mentor.getPronouns()
     mentorDomOrInt = mentor.getDomOrInt()
@@ -383,6 +383,7 @@ def findMatches(mentees, mentors):
         print("Incoming preference: ", mentee.getPreference())
         print()
         print("Total comp score: ", compScore)
+        print()
         print("Total academic score: ", mentee.getAcademicComp())
         print("Total extracurricular score: ", mentee.getExtracurricularComp())
         print("Total origin score: ", mentee.getOriginComp())
