@@ -157,27 +157,26 @@ def getCompatibility(mentee, mentor):
     originBeforePoints = originPoints
 
     # apply preferences to weight one or more areas more highly
-    for menteePreference in menteePreferences:
-        if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
-            if academicPoints == 0:
-                extracurricularPoints = 0
-                originPoints = 0
-            else:
-                academicPoints *= 2
+    if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
+        if academicPoints == 0:
+            extracurricularPoints = 0
+            originPoints = 0
+        else:
+            academicPoints *= 2
 
-        elif menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
-            if extracurricularPoints == 0:
-                academicPoints = 0
-                originPoints = 0
-            else:
-                extracurricularPoints *= 2
+    elif menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
+        if extracurricularPoints == 0:
+            academicPoints = 0
+            originPoints = 0
+        else:
+            extracurricularPoints *= 2
 
-        elif menteePreference == "Origin (I want my match to be demographically similar to me)":
-            if originPoints == 0:
-                academicPoints = 0
-                extracurricularPoints = 0
-            else:
-                originPoints *= 2
+    elif menteePreference == "Origin (I want my match to be demographically similar to me)":
+        if originPoints == 0:
+            academicPoints = 0
+            extracurricularPoints = 0
+        else:
+            originPoints *= 2
 
     # combines all 3 scores
     totalCompScore = academicPoints + extracurricularPoints + originPoints
