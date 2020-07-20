@@ -35,11 +35,12 @@ def sendMenteeEmails(menteeEmails, password):
 
     for menteeEmail in menteeEmails:
         msg = EmailMessage()
-        msg1 = "\nThank you for participating in the Coming2Carleton program! We hope you had a great experience."\
-        +"\n\nWe'd love to hear about your experience. Below is a link to fill out a short form!"\
+        menteeMsg = "\nThank you for participating in the Coming2Carleton program! We hope you had a great experience."\
+        +"\n\nWe'd love to hear about any feedback. Here is a link to fill out a short form! Please fill it out if possible; "
+        + "We want to improve the program, and it really helps us out!"\
         +"\n\nhttps://forms.gle/cwZp37Jhrsnjb2LF7"\
         +"\n\nBest,\nThe Coming2Carleton team"
-        msg['Subject'] = 'Coming2Carleton Feedback!'
+        msg['Subject'] = 'Coming2Carleton Feedback! (Incoming Students)'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = menteeEmail
         msg.set_content(msg1)
@@ -56,14 +57,15 @@ def sendMentorEmails(menteeEmails, password):
 
     for mentorEmail in mentorEmails:
         msg = EmailMessage()
-        msg1 = "\nThank you for participating in the Coming2Carleton program! We hope you had a great experience."\
-        +"\n\nWe'd love to hear about your experience. Below is a link to fill out a short form!"\
-        +"\n\nhttps://forms.gle/k4H5kDWnuHhFXqtW9"\
+        mentorMsg = "\nThank you for participating in the Coming2Carleton program! We hope you had a great experience."\
+        +"\n\nWe'd love to hear about any feedback. Here is a link to fill out a short form! Please fill it out if possible; "
+        + "We want to improve the program, and it really helps us out!"\
+        +"\n\nhttps://forms.gle/cwZp37Jhrsnjb2LF7"\
         +"\n\nBest,\nThe Coming2Carleton team"
-        msg['Subject'] = 'Coming2Carleton Feedback!'
+        msg['Subject'] = 'Coming2Carleton Feedback (Mentors)!'
         msg['From'] = "coming2carleton@gmail.com"
         msg['To'] = mentorEmail
-        msg.set_content(msg1)
+        msg.set_content(mentorMsg)
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login("coming2carleton@gmail.com", password)
