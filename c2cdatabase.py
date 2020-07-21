@@ -155,8 +155,6 @@ def getCompatibility(mentee, mentor):
     extracurricularBeforePoints = extracurricularPoints
     originBeforePoints = originPoints
 
-    # apply preferences to weight one or more areas more highly
-
     # combines all 3 scores
     totalCompScore = academicPoints + extracurricularPoints + originPoints
     return totalCompScore, academicBeforePoints, extracurricularBeforePoints, originBeforePoints
@@ -228,6 +226,7 @@ def sendEmails(matchesDict, mentees, mentors):
             smtp.quit()
 
 def enterData(matches, mentees, mentors):
+    date = str(datetime.datetime.now())
     def updateMenteeData():
         currentMenteeEmails = set(menteeDatasheet.col_values(2))
 
@@ -244,6 +243,9 @@ def enterData(matches, mentees, mentors):
         #This for loop inserts each mentee list into the google sheet
         for mentee1 in menteesToAdd:
             menteeDatasheet.insert_row(mentee1, 2)
+        menteeDatasheet.insert_row(['',''], 2)
+        menteeDatasheet.insert_row(['NEW GROUP',date], 2)
+        menteeDatasheet.insert_row(['',''], 2)
     updateMenteeData()
 
     #This function inputs the second sheet of Master Sheet with each mentor object's attributes
@@ -267,6 +269,9 @@ def enterData(matches, mentees, mentors):
         for mentor1 in mentorsToAdd:
             mentorDatasheet.insert_row(mentor1, 2)
             time.sleep(.5)
+        mentorDatasheet.insert_row(['',''], 2)
+        mentorDatasheet.insert_row(['NEW GROUP',date], 2)
+        mentorDatasheet.insert_row(['',''], 2)
     updateMentorData()
 
     #This function inputs the third sheet of Master Sheet with each match
@@ -284,7 +289,6 @@ def enterData(matches, mentees, mentors):
         for match1 in listOfMatches:
             matchesDatasheet.insert_row(match1, 2)
 
-        date = str(datetime.datetime.now())
         matchesDatasheet.insert_row(['',''], 2)
         matchesDatasheet.insert_row(['NEW GROUP',date], 2)
         matchesDatasheet.insert_row(['',''], 2)
@@ -403,9 +407,7 @@ def findMatches(mentees, mentors):
 
                         originCompScore = possibleOriginPairs[compatibleMentorEmail]
                         originCompScore *= 2
-            print(mentee.getFirstName())
-            print(mentors[compatibleMentorEmail].getFirstName())
-            print('a: ', academicCompScore, 'e: ', extracurricularCompScore, 'o: ', originCompScore)
+
             compScore = academicCompScore + extracurricularCompScore + originCompScore
             return compScore, compatibleMentorEmail
 
