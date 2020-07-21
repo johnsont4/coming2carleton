@@ -342,34 +342,53 @@ def findMatches(mentees, mentors):
 
 
             # Gets mentee preferences
-            menteePreferences = mentee.getPreference().split(', ')
+            menteePreference = mentee.getPreference()
 
-            for menteePreference in menteePreferences:
-
-                if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
-                    if possibleAcademicPairs[compatibleMentorEmail] == 0:
-                        for mentor in possibleAcademicPairs:
-                            if possibleAcademicPairs[mentor] == 0:
-                                del possiblePairs[mentor]
-                        try:
-                            possiblePairsValues = possiblePairs.values()
-                            compScore = max(possiblePairsValues)
-                            compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
-                            academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
-                            extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
-                            originCompScore = possibleOriginPairs[compatibleMentorEmail]
-                            academicCompScore *= 2
-                        except Exception:
-                            pass
-
-                    else:
+            if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
+                if possibleAcademicPairs[compatibleMentorEmail] == 0:
+                    for mentor in possibleAcademicPairs:
+                        if possibleAcademicPairs[mentor] == 0:
+                            del possiblePairs[mentor]
+                    try:
+                        possiblePairsValues = possiblePairs.values()
+                        compScore = max(possiblePairsValues)
+                        compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
                         academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
+                        extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
+                        originCompScore = possibleOriginPairs[compatibleMentorEmail]
                         academicCompScore *= 2
+                    except Exception:
+                        pass
 
-                elif menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
-                    if possibleExtracurricularPairs[compatibleMentorEmail] == 0:
-                        for mentor in possibleExtracurricularPairs:
-                            if possibleExtracurricularPairs[mentor] == 0:
+                else:
+                    academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
+                    academicCompScore *= 2
+
+            elif menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
+                if possibleExtracurricularPairs[compatibleMentorEmail] == 0:
+                    for mentor in possibleExtracurricularPairs:
+                        if possibleExtracurricularPairs[mentor] == 0:
+                            del possiblePairs[mentor]
+                    try:
+                        possiblePairsValues = possiblePairs.values()
+                        compScore = max(possiblePairsValues)
+                        compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+                        extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
+                        academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
+                        originCompScore = possibleOriginPairs[compatibleMentorEmail]
+                        extracurricularCompScore *= 2
+                    except Exception:
+                        pass
+
+                else:
+                    extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
+                    extracurricularCompScore *= 2
+
+            elif menteePreference == "Origin (I want my match to be demographically similar to me)":
+                if possibleOriginPairs[compatibleMentorEmail] == 0:
+                    if possibleOriginPairs[compatibleMentorEmail] == 0:
+                        for mentor in possibleOriginPairs:
+                            if possibleOriginPairs[mentor] == 0:
                                 del possiblePairs[mentor]
                         try:
                             possiblePairsValues = possiblePairs.values()
@@ -378,35 +397,14 @@ def findMatches(mentees, mentors):
                             extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                             academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                             originCompScore = possibleOriginPairs[compatibleMentorEmail]
-                            extracurricularCompScore *= 2
+                            originCompScore *= 2
                         except Exception:
                             pass
 
-                    else:
-                        extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
-                        extracurricularCompScore *= 2
+                else:
 
-                elif menteePreference == "Origin (I want my match to be demographically similar to me)":
-                    if possibleOriginPairs[compatibleMentorEmail] == 0:
-                        if possibleOriginPairs[compatibleMentorEmail] == 0:
-                            for mentor in possibleOriginPairs:
-                                if possibleOriginPairs[mentor] == 0:
-                                    del possiblePairs[mentor]
-                            try:
-                                possiblePairsValues = possiblePairs.values()
-                                compScore = max(possiblePairsValues)
-                                compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
-                                extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
-                                academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
-                                originCompScore = possibleOriginPairs[compatibleMentorEmail]
-                                originCompScore *= 2
-                            except Exception:
-                                pass
-
-                    else:
-
-                        originCompScore = possibleOriginPairs[compatibleMentorEmail]
-                        originCompScore *= 2
+                    originCompScore = possibleOriginPairs[compatibleMentorEmail]
+                    originCompScore *= 2
 
             compScore = academicCompScore + extracurricularCompScore + originCompScore
             return compScore, compatibleMentorEmail
