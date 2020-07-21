@@ -94,7 +94,12 @@ class Mentee(Student):
     def __init__(self, listOfAtt):
         super().__init__(listOfAtt)
         self.questions = listOfAtt[10]
-        self.preference = listOfAtt[11]
+        if listOfAtt[11] == "Academic Interests (I want my match to have similar academic interests as me)":
+            self.preference = 'Academic Interests'
+        elif listOfAtt[11] == "Extracurriculars (I want my match to be involved in similar activities as me)":
+            self.preference = 'Extracurriculars'
+        elif listOfAtt[11] == "Origin (I want my match to be demographically similar to me)":
+            self.preference = 'Origin'
         self.advertise = listOfAtt[12]
 
     def getQuestions(self):

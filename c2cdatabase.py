@@ -344,7 +344,7 @@ def findMatches(mentees, mentors):
             # Gets mentee preferences
             menteePreference = mentee.getPreference()
 
-            if menteePreference == "Academic Interests (I want my match to have similar academic interests as me)":
+            if menteePreference == "Academic Interests":
                 if possibleAcademicPairs[compatibleMentorEmail] == 0:
                     for mentor in possibleAcademicPairs:
                         if possibleAcademicPairs[mentor] == 0:
@@ -364,7 +364,7 @@ def findMatches(mentees, mentors):
                     academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                     academicCompScore *= 2
 
-            elif menteePreference == "Extracurriculars (I want my match to be involved in similar activities as me)":
+            elif menteePreference == "Extracurriculars":
                 if possibleExtracurricularPairs[compatibleMentorEmail] == 0:
                     for mentor in possibleExtracurricularPairs:
                         if possibleExtracurricularPairs[mentor] == 0:
@@ -384,7 +384,7 @@ def findMatches(mentees, mentors):
                     extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                     extracurricularCompScore *= 2
 
-            elif menteePreference == "Origin (I want my match to be demographically similar to me)":
+            elif menteePreference == "Origin":
                 if possibleOriginPairs[compatibleMentorEmail] == 0:
                     if possibleOriginPairs[compatibleMentorEmail] == 0:
                         for mentor in possibleOriginPairs:
