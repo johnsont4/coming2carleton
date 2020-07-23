@@ -163,7 +163,7 @@ def getCompatibility(mentee, mentor):
 # so that we can input key values(email addresses) and get the corresponding Student objects(so we can get info like their names).
 def sendEmails(matchesDict, mentees, mentors):
 
-    # This makes one of us type in the password so the password isn't in the script
+    # This makes one of us type in the password so the password isn't in the code
     password = input("The password for coming2carleton@gmail.com: ")
 
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
@@ -319,9 +319,8 @@ def findMatches(mentees, mentors):
             # if a mentor has already been matched, then he/she is not compared with the current mentee
             if mentor.getMatched():
                 continue
-
             compatibility, academicComp, extracurricularCompatibility, originCompatibility = getCompatibility(mentee, mentor)
-
+            
             # Creates 4 key-value pairs within an incoming student's 4 dictionaries
             makePair(mentor, compatibility, possiblePairs)
             makeAcademicPair(mentor, academicComp, possibleAcademicPairs)
@@ -330,16 +329,12 @@ def findMatches(mentees, mentors):
 
         # Make sure that each student's preference has at least one similar thing
         def preferenceMatching():
-            # Updates compatibility scores for both the mentor and the mentee
-            # The compScore is an instance variable in the student class
-            possiblePairsValues = possiblePairs.values()
 
             # Finds the volunteer with the highest total compatibility
             compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
             academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
             extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
             originCompScore = possibleOriginPairs[compatibleMentorEmail]
-
 
             # Gets mentee preferences
             menteePreference = mentee.getPreference()
@@ -350,8 +345,7 @@ def findMatches(mentees, mentors):
                         if possibleAcademicPairs[mentor] == 0:
                             del possiblePairs[mentor]
                     try:
-                        possiblePairsValues = possiblePairs.values()
-                        compScore = max(possiblePairsValues)
+                        compScore = max(possiblePairs.values())
                         compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
                         academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                         extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
@@ -359,7 +353,6 @@ def findMatches(mentees, mentors):
                         academicCompScore *= 2
                     except Exception:
                         pass
-
                 else:
                     academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                     academicCompScore *= 2
@@ -370,8 +363,7 @@ def findMatches(mentees, mentors):
                         if possibleExtracurricularPairs[mentor] == 0:
                             del possiblePairs[mentor]
                     try:
-                        possiblePairsValues = possiblePairs.values()
-                        compScore = max(possiblePairsValues)
+                        compScore = max(possiblePairs.values())
                         compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
                         extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                         academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
@@ -379,7 +371,6 @@ def findMatches(mentees, mentors):
                         extracurricularCompScore *= 2
                     except Exception:
                         pass
-
                 else:
                     extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                     extracurricularCompScore *= 2
@@ -391,8 +382,7 @@ def findMatches(mentees, mentors):
                             if possibleOriginPairs[mentor] == 0:
                                 del possiblePairs[mentor]
                         try:
-                            possiblePairsValues = possiblePairs.values()
-                            compScore = max(possiblePairsValues)
+                            compScore = max(possiblePairs.values())
                             compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
                             extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                             academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
@@ -400,9 +390,7 @@ def findMatches(mentees, mentors):
                             originCompScore *= 2
                         except Exception:
                             pass
-
                 else:
-
                     originCompScore = possibleOriginPairs[compatibleMentorEmail]
                     originCompScore *= 2
 
@@ -432,8 +420,8 @@ def findMatches(mentees, mentors):
             mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
         updateScores()
 
-        #Used to figure out good algorithm
-        """print()
+        '''#Used to figure out good algorithm
+        print()
         print()
         print("Incoming: ", mentee.getFirstName())
         print("Mentor: ", mentors[compatibleMentorEmail].getFirstName())
@@ -442,7 +430,7 @@ def findMatches(mentees, mentors):
         print("Total comp score: ", compScore)
         print("Total academic score: ", mentee.getAcademicComp())
         print("Total extracurricular score: ", mentee.getExtracurricularComp())
-        print("Total origin score: ", mentee.getOriginComp())"""
+        print("Total origin score: ", mentee.getOriginComp())'''
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
@@ -470,7 +458,6 @@ def main():
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
 
-    #test
 main()
 
 ##
