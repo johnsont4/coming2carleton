@@ -188,21 +188,20 @@ def sendEmails(matchesDict, mentees, mentors):
                     + "\nEmail: " + mentorAddress \
                     + "\nPronouns: " + mentor.getPronouns() \
                     + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun!" \
-                    + "\n\nBest, \nThe Coming2Carleton team" \
- \
-                mentorMsg = "\nDear " + mentor.getFirstName() + "," \
-                            + "\n\nThank you for signing up to be a mentor for this year's Coming2Carleton program!" \
-                            + "\n\nAs a mentor, you're expected to send your match an email in a timely fashion." \
-                            + "\n\nBelow is some information about your Coming2Carleton match!" \
-                            + "\n\nName: " + mentee.getFirstName() + " " + mentee.getLastName() \
-                            + "\nEmail: " + menteeEmail \
-                            + "\nPronouns: " + mentee.getPronouns() \
-                            + "\nForemost Questions (if any): " + mentee.getQuestions() \
-                            + "\n\nWe hope that you take advantage of this opportunity to create a meaningful connection with one of your future peers!" \
-                            + "\n\nAttached to this note is a pdf that contains some basic guidelines and tips in preparation for your meeting. Have fun!" \
-                            + "\n\nBest, \nThe Coming2Carleton team" \
- \
-                    # email incoming students with a desired message
+                    + "\n\nBest, \nThe Coming2Carleton team"
+        mentorMsg = "\nDear " + mentor.getFirstName() + "," \
+                    + "\n\nThank you for signing up to be a mentor for this year's Coming2Carleton program!" \
+                    + "\n\nAs a mentor, you're expected to send your match an email in a timely fashion." \
+                    + "\n\nBelow is some information about your Coming2Carleton match!" \
+                    + "\n\nName: " + mentee.getFirstName() + " " + mentee.getLastName() \
+                    + "\nEmail: " + menteeEmail \
+                    + "\nPronouns: " + mentee.getPronouns() \
+                    + "\nForemost Questions (if any): " + mentee.getQuestions() \
+                    + "\n\nWe hope that you take advantage of this opportunity to create a meaningful connection with one of your future peers!" \
+                    + "\n\nAttached to this note is a pdf that contains some basic guidelines and tips in preparation for your meeting. Have fun!" \
+                    + "\n\nBest, \nThe Coming2Carleton team"
+
+         # email incoming students with a desired message
         msg = EmailMessage()
         today = str(datetime.date.today())
         today = today[5:]
