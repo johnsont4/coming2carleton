@@ -252,8 +252,7 @@ def enterData(matches, mentees, mentors):
         menteeDatasheet.insert_row(['', ''], 2)
         menteeDatasheet.insert_row(['NEW GROUP', date], 2)
         menteeDatasheet.insert_row(['', ''], 2)
-
-    updateMenteeData()
+    #updateMenteeData()
 
     # This function inputs the second sheet of Master Sheet with each mentor object's attributes
     def updateMentorData():
@@ -279,11 +278,10 @@ def enterData(matches, mentees, mentors):
         mentorDatasheet.insert_row(['', ''], 2)
         mentorDatasheet.insert_row(['NEW GROUP', date], 2)
         mentorDatasheet.insert_row(['', ''], 2)
-
-    updateMentorData()
+    #updateMentorData()
 
     # This function inputs the third sheet of Master Sheet with each match
-    def updateMatchesData():
+    """def updateMatchesData():
         # Creates a list that will eventually contain smaller lists with matches
         listOfMatches = []
         # Converts dictionary of matches into lists of matches and adds them to listOfMatches
@@ -300,9 +298,30 @@ def enterData(matches, mentees, mentors):
         matchesDatasheet.insert_row(['', ''], 2)
         matchesDatasheet.insert_row(['NEW GROUP', date], 2)
         matchesDatasheet.insert_row(['', ''], 2)
-        time.sleep(.5)
+        time.sleep(1)
+    updateMatchesData()"""
 
-    updateMatchesData()
+
+    menteesToDelete = set(matches.keys())
+    mentorsToDelete = set(matches.values())
+
+    def updateStudentDatabase(worksheet, toDelete, row):
+        time.sleep(2)
+        if worksheet.cell(row, 2).value == '':
+            print('we out')
+            return True
+        elif worksheet.cell(row, 2).value in toDelete:
+            print('in')
+            worksheet.delete_rows(row)
+            updateStudentDatabase(worksheet, toDelete, row)
+        elif worksheet.cell(row, 2).value not in toDelete:
+            print('not in')
+            row += 1
+            updateStudentDatabase(worksheet, toDelete, row)
+    updateStudentDatabase(menteewks, menteesToDelete, 2)
+    updateStudentDatabase(mentorwks, mentorsToDelete, 2)
+
+
 
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
