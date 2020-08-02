@@ -1,4 +1,4 @@
-# Access to Google Spreadsheats and GoogleDrive
+# Access to Google Spreadsheets and GoogleDrive
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -320,7 +320,7 @@ def findMatches(mentees, mentors):
             if mentor.getMatched():
                 continue
             compatibility, academicComp, extracurricularCompatibility, originCompatibility = getCompatibility(mentee, mentor)
-            
+
             # Creates 4 key-value pairs within an incoming student's 4 dictionaries
             makePair(mentor, compatibility, possiblePairs)
             makeAcademicPair(mentor, academicComp, possibleAcademicPairs)
