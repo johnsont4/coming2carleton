@@ -5,7 +5,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 # Imports Student class containing each students' attributes
 from student import Student, Mentor, Mentee
 
-#Needed for dictionary commands
+# Needed for dictionary commands
 import operator
 
 # these are used to send emails
@@ -16,17 +16,14 @@ from email.message import EmailMessage
 import time
 import datetime
 
-# used to make sure emails don't get cut (each email is unique)
-import random
-
 # These are the websites that need to be accessed to get menteeData from Google Drive
 scope = ['https://www.googleapis.com/auth/spreadsheets', \
-'https://www.googleapis.com/auth/drive']
+         'https://www.googleapis.com/auth/drive']
 
 # Uses info from the JSON file and the scope to access Teagan's google drive
 # This is stored in a variable (credentials)
-credentials = ServiceAccountCredentials.from_json_keyfile_name\
-('Coming2Carleton.json', scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_name \
+    ('Coming2Carleton.json', scope)
 
 # Uses the credentials variable to access google spreadsheets
 gc = gspread.authorize(credentials)
@@ -42,23 +39,27 @@ menteeData = menteewks.get_all_records()
 
 mentorData = mentorwks.get_all_records()
 
-#Spreadsheet with incoming data
+# Spreadsheet with incoming data
 menteeDatasheet = gc.open("Matches Master Sheet").sheet1
 
-#Spreadsheet with volunteer data
+# Spreadsheet with volunteer data
 mentorDatasheet = gc.open("Matches Master Sheet").get_worksheet(1)
 
-#Spreadsheet with matches
+# Spreadsheet with matches
 matchesDatasheet = gc.open("Matches Master Sheet").get_worksheet(2)
+
+
 #############################################################################
 # A function that makes a Student object using a list of attributes each time it is called
 def makeMentee(listOfAtt):
     mentee = Mentee(listOfAtt)
     return mentee
 
+
 def makeMentor(listOfAtt):
     mentor = Mentor(listOfAtt)
     return mentor
+
 
 # This function creates all the incoming Student objects and adds each key-value pair to menteeDict dictionary.
 def createMenteeDict(data):
@@ -71,6 +72,7 @@ def createMenteeDict(data):
         menteeDict[mentee.getEmail()] = mentee
 
     return menteeDict
+
 
 # This function creates all the volunteer Student objects and adds each key-value pair to the mentorDict dictionary.
 def createMentorDict(data):
@@ -85,27 +87,31 @@ def createMentorDict(data):
 
     return mentorDict
 
+
 # Creates 4 new key-value pairs in each one of an incoming student's dictionaries where the keys is the volunteer student's email and the values are
 # the 3 types of compatibilities and the combined compatibility
 def makePair(mentor, totalPoints, possiblePairs):
     possiblePairs[mentor.getEmail()] = totalPoints
     return possiblePairs
 
+
 def makeAcademicPair(mentor, academicPoints, possibleAcademicPairs):
     possibleAcademicPairs[mentor.getEmail()] = academicPoints
     return possibleAcademicPairs
+
 
 def makeExtracurricularPair(mentor, extracurricularPoints, possibleExtracurricularPairs):
     possibleExtracurricularPairs[mentor.getEmail()] = extracurricularPoints
     return possibleExtracurricularPairs
 
+
 def makeOriginPair(mentor, originPoints, possibleOriginPairs):
     possibleOriginPairs[mentor.getEmail()] = originPoints
     return possibleOriginPairs
 
+
 # Uses a series of if-statements and a couple methods to return a number representing the compatibility between two students.
 def getCompatibility(mentee, mentor):
-
     menteePronouns = mentee.getPronouns()
     menteeDomOrInt = mentee.getDomOrInt()
     menteeHomeland = mentee.getHomeland().lower()
@@ -159,16 +165,15 @@ def getCompatibility(mentee, mentor):
     totalCompScore = academicPoints + extracurricularPoints + originPoints
     return totalCompScore, academicBeforePoints, extracurricularBeforePoints, originBeforePoints
 
-#This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
+
+# This function sends emails to all the incoming students and volunteers. matchesDict holds all the matches, and the two dictionaries are passed in
 # so that we can input key values(email addresses) and get the corresponding Student objects(so we can get info like their names).
 def sendEmails(matchesDict, mentees, mentors):
-
     # This makes one of us type in the password so the password isn't in the code
     password = input("The password for coming2carleton@gmail.com: ")
 
     # This loops through the keys of matchesDict, which are the combined first and last names of incoming students.
     for menteeEmail in matchesDict:
-
         # gets the volunteer student email associated with this incoming student
         mentorAddress = matchesDict[menteeEmail]
 
@@ -176,28 +181,27 @@ def sendEmails(matchesDict, mentees, mentors):
         mentee = mentees[menteeEmail]
         mentor = mentors[mentorAddress]
 
-        menteeMsg = "\nDear " + mentee.getFirstName() + ","\
-        + "\n\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home."\
-        + "\n\nBelow is some information about your Coming2Carleton mentor."\
-        + "\n\nName: " + mentor.getFirstName() + " " + mentor.getLastName()\
-        + "\nEmail: " + mentorAddress\
-        + "\nPronouns: " + mentor.getPronouns()\
-        + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun!"\
-        + "\n\nBest, \nThe Coming2Carleton team"\
+        menteeMsg = "\nDear " + mentee.getFirstName() + "," \
+                    + "\n\nWelcome to Carleton! We are so glad that you've chosen Carleton to be your next home." \
+                    + "\n\nBelow is some information about your Coming2Carleton mentor." \
+                    + "\n\nName: " + mentor.getFirstName() + " " + mentor.getLastName() \
+                    + "\nEmail: " + mentorAddress \
+                    + "\nPronouns: " + mentor.getPronouns() \
+                    + "\n\nWe hope that through the Coming2Carleton program, you will be able to better prepare yourself for the transition to campus, make a meaningful connection with a current student, and most importantly have fun!" \
+                    + "\n\nBest, \nThe Coming2Carleton team"
+        mentorMsg = "\nDear " + mentor.getFirstName() + "," \
+                    + "\n\nThank you for signing up to be a mentor for this year's Coming2Carleton program!" \
+                    + "\n\nAs a mentor, you're expected to send your match an email in a timely fashion." \
+                    + "\n\nBelow is some information about your Coming2Carleton match!" \
+                    + "\n\nName: " + mentee.getFirstName() + " " + mentee.getLastName() \
+                    + "\nEmail: " + menteeEmail \
+                    + "\nPronouns: " + mentee.getPronouns() \
+                    + "\nForemost Questions (if any): " + mentee.getQuestions() \
+                    + "\n\nWe hope that you take advantage of this opportunity to create a meaningful connection with one of your future peers!" \
+                    + "\n\nAttached to this note is a pdf that contains some basic guidelines and tips in preparation for your meeting. Have fun!" \
+                    + "\n\nBest, \nThe Coming2Carleton team"
 
-        mentorMsg = "\nDear " + mentor.getFirstName() + ","\
-        + "\n\nThank you for signing up to be a mentor for this year's Coming2Carleton program!"\
-        + "\n\nAs a mentor, you're expected to send your match an email in a timely fashion."\
-        + "\n\nBelow is some information about your Coming2Carleton match!"\
-        + "\n\nName: " + mentee.getFirstName() + " " + mentee.getLastName()\
-        + "\nEmail: " + menteeEmail\
-        + "\nPronouns: " + mentee.getPronouns()\
-        + "\nForemost Questions (if any): " + mentee.getQuestions()\
-        + "\n\nWe hope that you take advantage of this opportunity to create a meaningful connection with one of your future peers!"\
-        + "\n\nAttached to this note is a pdf that contains some basic guidelines and tips in preparation for your meeting. Have fun!"\
-        + "\n\nBest, \nThe Coming2Carleton team"\
-
-    # email incoming students with a desired message
+         # email incoming students with a desired message
         msg = EmailMessage()
         today = str(datetime.date.today())
         today = today[5:]
@@ -213,7 +217,7 @@ def sendEmails(matchesDict, mentees, mentors):
 
         # a line so that the program waits 1 second between sending email so hopefully Google doesn't flag as spam
         time.sleep(1)
-    # email the volunteers with a desired message
+        # email the volunteers with a desired message
         msg = EmailMessage()
         msg['Subject'] = subject
         msg['From'] = "coming2carleton@gmail.com"
@@ -225,30 +229,33 @@ def sendEmails(matchesDict, mentees, mentors):
             smtp.send_message(msg)
             smtp.quit()
 
+
 def enterData(matches, mentees, mentors):
     date = str(datetime.datetime.now())
+
     def updateMenteeData():
         currentMenteeEmails = set(menteeDatasheet.col_values(2))
 
-        #This list will eventually contain a list of each mentee's attributes
+        # This list will eventually contain a list of each mentee's attributes
         menteesToAdd = []
 
-        #This for loop appends each mentee's attributes to the listOfMentees in the form of a list
+        # This for loop appends each mentee's attributes to the listOfMentees in the form of a list
         for mentee in mentees:
-            #Need this conditional to avoid duplications
+            # Need this conditional to avoid duplications
             if mentees[mentee].getEmail() not in currentMenteeEmails:
                 oneMentee = list(vars(mentees[mentee]).values())
                 menteesToAdd.append(oneMentee)
 
-        #This for loop inserts each mentee list into the google sheet
+        # This for loop inserts each mentee list into the google sheet
         for mentee1 in menteesToAdd:
             menteeDatasheet.insert_row(mentee1, 2)
-        menteeDatasheet.insert_row(['',''], 2)
-        menteeDatasheet.insert_row(['NEW GROUP',date], 2)
-        menteeDatasheet.insert_row(['',''], 2)
+        menteeDatasheet.insert_row(['', ''], 2)
+        menteeDatasheet.insert_row(['NEW GROUP', date], 2)
+        menteeDatasheet.insert_row(['', ''], 2)
+
     updateMenteeData()
 
-    #This function inputs the second sheet of Master Sheet with each mentor object's attributes
+    # This function inputs the second sheet of Master Sheet with each mentor object's attributes
     def updateMentorData():
         currentMentorEmails = set(mentorDatasheet.col_values(2))
 
@@ -258,42 +265,45 @@ def enterData(matches, mentees, mentors):
             mentorsToPossiblyAdd.append(mentorEmail)
 
         mentorsToAdd = []
-        #This for loop appends each mentor's attributes to the listOfMentors in the form of a list
+        # This for loop appends each mentor's attributes to the listOfMentors in the form of a list
         for mentor in mentorsToPossiblyAdd:
-            #Need this conditional to avoid duplications
+            # Need this conditional to avoid duplications
             if mentors[mentor].getEmail() not in currentMentorEmails:
                 oneMentor = list(vars(mentors[mentor]).values())
                 mentorsToAdd.append(oneMentor)
 
-        #This for loop inserts each mentor list into the google sheet
+        # This for loop inserts each mentor list into the google sheet
         for mentor1 in mentorsToAdd:
             mentorDatasheet.insert_row(mentor1, 2)
             time.sleep(.5)
-        mentorDatasheet.insert_row(['',''], 2)
-        mentorDatasheet.insert_row(['NEW GROUP',date], 2)
-        mentorDatasheet.insert_row(['',''], 2)
+        mentorDatasheet.insert_row(['', ''], 2)
+        mentorDatasheet.insert_row(['NEW GROUP', date], 2)
+        mentorDatasheet.insert_row(['', ''], 2)
+
     updateMentorData()
 
-    #This function inputs the third sheet of Master Sheet with each match
+    # This function inputs the third sheet of Master Sheet with each match
     def updateMatchesData():
-        #Creates a list that will eventually contain smaller lists with matches
+        # Creates a list that will eventually contain smaller lists with matches
         listOfMatches = []
-        #Converts dictionary of matches into lists of matches and adds them to listOfMatches
+        # Converts dictionary of matches into lists of matches and adds them to listOfMatches
         for match in matches:
             pair = []
             pair.append(match)
             pair.append(matches[match])
             listOfMatches.append(pair)
 
-        #Updates google sheet with matches
+        # Updates google sheet with matches
         for match1 in listOfMatches:
             matchesDatasheet.insert_row(match1, 2)
 
-        matchesDatasheet.insert_row(['',''], 2)
-        matchesDatasheet.insert_row(['NEW GROUP',date], 2)
-        matchesDatasheet.insert_row(['',''], 2)
+        matchesDatasheet.insert_row(['', ''], 2)
+        matchesDatasheet.insert_row(['NEW GROUP', date], 2)
+        matchesDatasheet.insert_row(['', ''], 2)
         time.sleep(.5)
+
     updateMatchesData()
+
 
 # Finds each incoming student's best match and puts into a dictionary called compatibleMatchesDict, where keys = incoming student's email address)
 # and values = volunteer student's email address)
@@ -319,7 +329,12 @@ def findMatches(mentees, mentors):
             # if a mentor has already been matched, then he/she is not compared with the current mentee
             if mentor.getMatched():
                 continue
+<<<<<<< HEAD
             compatibility, academicComp, extracurricularCompatibility, originCompatibility = getCompatibility(mentee, mentor)
+=======
+            compatibility, academicComp, extracurricularCompatibility, originCompatibility = getCompatibility(mentee,
+                                                                                                              mentor)
+>>>>>>> eab675c892af656873aa5f48f900a13936912bb7
 
             # Creates 4 key-value pairs within an incoming student's 4 dictionaries
             makePair(mentor, compatibility, possiblePairs)
@@ -331,7 +346,7 @@ def findMatches(mentees, mentors):
         def preferenceMatching():
 
             # Finds the volunteer with the highest total compatibility
-            compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+            compatibleMentorEmail = max(possiblePairs.items(), key=operator.itemgetter(1))[0]
             academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
             extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
             originCompScore = possibleOriginPairs[compatibleMentorEmail]
@@ -346,7 +361,7 @@ def findMatches(mentees, mentors):
                             del possiblePairs[mentor]
                     try:
                         compScore = max(possiblePairs.values())
-                        compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+                        compatibleMentorEmail = max(possiblePairs.items(), key=operator.itemgetter(1))[0]
                         academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                         extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                         originCompScore = possibleOriginPairs[compatibleMentorEmail]
@@ -364,7 +379,7 @@ def findMatches(mentees, mentors):
                             del possiblePairs[mentor]
                     try:
                         compScore = max(possiblePairs.values())
-                        compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+                        compatibleMentorEmail = max(possiblePairs.items(), key=operator.itemgetter(1))[0]
                         extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                         academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                         originCompScore = possibleOriginPairs[compatibleMentorEmail]
@@ -383,7 +398,7 @@ def findMatches(mentees, mentors):
                                 del possiblePairs[mentor]
                         try:
                             compScore = max(possiblePairs.values())
-                            compatibleMentorEmail = max(possiblePairs.items(), key = operator.itemgetter(1))[0]
+                            compatibleMentorEmail = max(possiblePairs.items(), key=operator.itemgetter(1))[0]
                             extracurricularCompScore = possibleExtracurricularPairs[compatibleMentorEmail]
                             academicCompScore = possibleAcademicPairs[compatibleMentorEmail]
                             originCompScore = possibleOriginPairs[compatibleMentorEmail]
@@ -418,25 +433,15 @@ def findMatches(mentees, mentors):
             originCompScore = possibleOriginPairs[compatibleMentorEmail]
             mentee.updateOriginComp(originCompScore)
             mentors[compatibleMentorEmail].updateOriginComp(originCompScore)
-        updateScores()
 
-        '''#Used to figure out good algorithm
-        print()
-        print()
-        print("Incoming: ", mentee.getFirstName())
-        print("Mentor: ", mentors[compatibleMentorEmail].getFirstName())
-        print("Incoming preference: ", mentee.getPreference())
-        print()
-        print("Total comp score: ", compScore)
-        print("Total academic score: ", mentee.getAcademicComp())
-        print("Total extracurricular score: ", mentee.getExtracurricularComp())
-        print("Total origin score: ", mentee.getOriginComp())'''
+        updateScores()
 
         # This adds a key(incoming student's email) and a value(their compatible volunteer's email) to compatibleMatchesDict.
         # After the outer loop is done running, this will contain all compatible matches.
         compatibleMatchesDict[mentee.getEmail()] = compatibleMentorEmail
 
     return compatibleMatchesDict
+
 
 # The main function of the whole program
 # Basically, the main function creates 2 dicts: one for incoming and one for volunteer students
@@ -453,10 +458,11 @@ def main():
     matches = findMatches(mentees, mentors)
 
     # sends emails to all mentors and mentees
-    #sendEmails(matches, mentees, mentors)
+    # sendEmails(matches, mentees, mentors)
 
     # enters data into a spreadsheet so we can analyze it
     enterData(matches, mentees, mentors)
+
 
 main()
 

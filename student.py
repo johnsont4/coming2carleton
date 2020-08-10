@@ -116,13 +116,13 @@ class Mentor(Student):
         super().__init__(listOfAtt)
         self.year = listOfAtt[10]
         self.advertise = listOfAtt[11]
-        self.matched = False
+        self.matchStatus = False
 
     def getAdvertise(self):
         return self.advertise
 
     def getMatched(self):
-        return self.matched
+        return self.matchStatus
 
     def changeMatchStatus(self):
-        self.matched = not self.matched
+        self.matchStatus = True
