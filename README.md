@@ -2,13 +2,10 @@ CONTENTS OF THIS FILE
 ---------------------
 
  * Introduction
+ * Uses
  * Requirements
- * Recommended modules
- * Installation
- * Configuration
+ * Installation + Configuration
  * Troubleshooting
- * FAQ
- * Maintainers
 
 
 Introduction
