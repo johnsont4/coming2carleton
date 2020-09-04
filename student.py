@@ -100,6 +100,8 @@ class Mentee(Student):
             self.preference = 'Extracurriculars'
         elif listOfAtt[11] == "Origin (I want my match to be demographically similar to me)":
             self.preference = 'Origin'
+        else:
+            self.preference = 'None'
         self.advertise = listOfAtt[12]
 
     def getQuestions(self):
