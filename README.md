@@ -43,8 +43,8 @@ If you are having trouble creating a Google service account, these two videos wi
   2. https://www.youtube.com/watch?v=yPQ2Gk33b1U
 
 If you are having trouble installing gspread and oauth2client, make sure you are installing them with this syntax: 
-  pip install gspread
-  pip install oauth2client
-  AND MAKE SURE THAT YOU ARE INSTALLING THESE INTO YOUR REPOSITORY FOLDER
+  - pip install gspread
+  - pip install oauth2client
+  - AND MAKE SURE THAT YOU ARE INSTALLING THESE INTO YOUR REPOSITORY FOLDER
 
 Any other questions, email: johnsont4@carleton.edu
